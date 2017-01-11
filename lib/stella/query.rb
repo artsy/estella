@@ -1,6 +1,6 @@
 module Stella
   class Query
-    # Constructs a query hash for ES
+    # Constructs a search query for ES
     attr_accessor :query
     attr_reader :params
 

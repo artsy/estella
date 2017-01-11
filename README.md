@@ -1,24 +1,26 @@
 # stella
 
-Makes your Ruby ActiveRecord models searchable with Elasticsearch. Provides fine-grained control of fields, analysers, weightings and boosts. Built on top of [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model).
+Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, weightings and boosts.
 
-Just include a `searchable` block in your ActiveRecord model declaring the fields to be indexed like so:
+Just include the `Stella::Searchable` module and add a `searchable` block in your ActiveRecord model declaring the fields to be indexed like so:
 
 ```ruby
 class Artist < ActiveRecord
+    include Stella::Searchable
+
     searchable do
       es_field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
       es_field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
       es_field :bio, type: :string, index: :not_analyzed
       es_field :birth_date, type: :date
-
-      boost :title, modifier: log1p, factor: 1E-3
+      es_field :follows, type: :integer
+      boost :follows, modifier: 'log1p', factor: 1E-3
     end
     ...
 end
 ```
 
-Optionally provide weightings using the `factor` option or document-level boosts using the `boost` declaration.
+For a full understanding of the options available for your field mappings, see the [Elastic mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html). You can optionally provide field weightings using the `factor` option or document-level boosts using the `boost` declaration. While these are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default.
 
 You can now create your index with the following migration:
 
@@ -35,8 +37,12 @@ Finally perform full-text search using:
 Article.stella_search(term: 'frank')
 Article.stella_search(term: 'minimalism')
 ```
-Stella searches all analysed text fields by default. The search will return an array of database records in score order. If you'd like access to the raw Elasticsearch response data use:
+Stella searches all analysed text fields by default. The search will return an array of database records in score order. If you'd like access to the raw Elasticsearch response data use the `raw` option:
 
 ```ruby
 Article.stella_search(term: 'frank', raw: true)
 ```
+
+Stella works with any ActiveRecord compatible database backend (MySQL, sqlite, Postgres, Mongoid).
+
+@todo examples for filters, sorts and aggregations

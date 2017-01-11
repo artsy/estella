@@ -4,21 +4,24 @@ module Stella
     #
     # Just include a block in your model like so:
     #
-    # searchable do
-    #   es_field :my_field, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
-    #   ...
-    #   boost :my_field, modifier: log1p, factor: 1E-3
+    # class Artist < ActiveRecord::Base
+    #   searchable do
+    #     es_field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
+    #     es_field :follows, type: :integer
+    #     ...
+    #     boost :follows, modifier: log1p, factor: 1E-3
+    #   end
     # end
     #
     # Document boosts are optional.
     # You can now create your index with the following migration:
     #
-    # MyModel.reload_index!
-    # MyModel.import
+    # Artist.reload_index!
+    # Artist.import
     #
     # And perform full-text search using:
     #
-    # MyModel.stella_search(term: x)
+    # Artist.stella_search(term: x)
     #
     extend ActiveSupport::Concern
 
