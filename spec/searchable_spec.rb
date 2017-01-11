@@ -32,7 +32,6 @@ describe Stella::Searchable, type: :model do
       SearchableModel.reload_index!
       @jez = SearchableModel.create(id: 1, title: 'jeremy corbyn', keywords: ['jez'], follows_count: 0)
       @tez = SearchableModel.create(id: 2, title: 'theresa may', keywords: ['tez'],  follows_count: 0)
-      @jez.save!
       SearchableModel.refresh_index!
     end
     it 'returns relevant results' do
@@ -58,7 +57,10 @@ describe Stella::Searchable, type: :model do
       SearchableModel.refresh_index!
       expect(SearchableModel.stella_search(term: 'dude')).to eq([@dude2, @dude])
     end
-    #it 'indexes slug by default' do
+    it 'returns raw response when raw option is set' do
+      expect(SearchableModel.stella_search(term: 'jeremy', raw: true).hits.hits.first['_id']).to eq(@jez.id.to_s)
+    end
+    #it 'indexes slug field by default' do
     #  SearchableModel.create(name: 'liapunov')
     #  SearchableModel.refresh_index!
     #  expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include? :slug).to eq true

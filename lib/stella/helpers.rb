@@ -44,6 +44,19 @@ module Stella
     end
 
     module ClassMethods
+      ## Searching
+
+      def stella_raw_search(params = {})
+        search(stella_query(params))
+      end
+
+      # @return an array of database records mapped using an adapter
+      def stella_search(params = {})
+        rsp = stella_raw_search(params)
+        params[:raw] ? rsp.response : rsp.records.to_a
+      end
+
+      ## Indexing
 
       # default index naming scheme is pluralized model_name
       def search_index_name
@@ -80,15 +93,6 @@ module Stella
 
       def set_index_alias!(name)
         __elasticsearch__.client.indices.put_alias index: index_name, name: name
-      end
-
-      def stella_raw_search(params = {})
-        search(stella_query(params))
-      end
-
-      # @return an array of database records mapped using an adapter
-      def stella_search(params = {})
-        stella_raw_search(params).records.to_a
       end
 
       def es_delete_document(id)
