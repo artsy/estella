@@ -18,7 +18,7 @@ module Stella
     #
     # And perform full-text search using:
     #
-    # MyModel.search(term: x)
+    # MyModel.stella_search(term: x)
     #
     extend ActiveSupport::Concern
 
