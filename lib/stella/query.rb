@@ -110,16 +110,6 @@ module Stella
       end
     end
 
-    def default_aggregation_filter
-      { bool: { must: query[:filter][:bool][:must] } }
-    end
-
-    def add_aggregation_query(type, filter, aggregation)
-      query[:aggregations][type] = { filter: { bool: { must: [] } }, aggregations: {} }
-      query[:aggregations][type][:filter][:bool][:must] = filter
-      query[:aggregations][type][:aggregations][type] = aggregation
-    end
-
     def bool_filter(field, param)
       if param
         { term: { field => true } }
