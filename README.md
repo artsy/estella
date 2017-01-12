@@ -21,7 +21,7 @@ It is also configurable on a per model basis, see the [doc](https://github.com/e
 Just include the `Stella::Searchable` module and add a `searchable` block in your ActiveRecord model declaring the fields to be indexed like so:
 
 ```ruby
-class Artist < ActiveRecord
+class Artist < ActiveRecord::Base
     include Stella::Searchable
 
     searchable do
@@ -49,7 +49,7 @@ Or alternatively customize your analysis by listing the analysers you want enabl
 
 The `filter` option allows the field to be used as a filter at search time.
 
-You can optionally provide field weightings using the `factor` option or document-level boosts using the `boost` declaration. While these are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `stella_search`.
+You can optionally provide field weightings using the `factor` option or document-level boosts using the `boost` declaration. While these are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `#stella_search`.
 
 You can now create your index and start creating documents with the following:
 
@@ -58,7 +58,7 @@ Artist.reload_index!
 Artist.create(name: 'Frank Stella', keywords: ['art', 'minimalism'])
 ```
 
-Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these if you'd like to do your indexing in a background process.
+Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these (namely `#es_index` and `#es_delete` if you'd like to do your indexing in a background process.
 
 ## Searching
 
@@ -84,7 +84,7 @@ Artist.stella_search(term: 'frank', size: 10, from: 5)
 
 If you'd like to customize your query further, you can extend `Stella::Query` and override the `query_definition`:
 
-```
+```ruby
 class MyQuery < Stella::Query
   def query_definition
     {
@@ -98,6 +98,6 @@ end
 Artist.search MyQuery.new(term: 'frank').query
 ```
 
-For further search customization, see the [elasticsearch-model doc](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#searching). 
+For further search customization, see the [elasticsearch dsl](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl). 
 
-Stella works with any ActiveRecord compatible database (MySQL, sqlite, Postgres, MongoDB).
+Stella works with any ActiveRecord compatible database (MySQL, sqlite, Postgres) as well as MongoDB.
