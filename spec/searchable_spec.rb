@@ -13,11 +13,12 @@ describe Stella::Searchable, type: :model do
         include Stella::Searchable
 
         searchable do
-          es_field :title, type: 'string', analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-          es_field :keywords, type: 'string', analysis: [:default, :snowball], factor: 0.5
-          es_field :follows_count, type: 'integer'
+          es_field :title, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+          es_field :keywords, type: :string, analysis: [:default, :snowball], factor: 0.5
+          es_field :follows_count, type: :integer
+          es_field :published, type: :boolean, filter: true
 
-          boost :follows_count, type: 'integer', modifier: 'log2p', factor: 5E-4, max: 1.0
+          boost :follows_count, modifier: 'log2p', factor: 5E-4, max: 1.0
         end
       end
 
@@ -25,13 +26,15 @@ describe Stella::Searchable, type: :model do
         create_table(:searchable_models) do |t|
           t.string :title
           t.string :keywords
+          t.string :slug
+          t.boolean :published
           t.integer :follows_count, default: 0
         end
       end
 
       SearchableModel.reload_index!
-      @jez = SearchableModel.create(id: 1, title: 'jeremy corbyn', keywords: ['jez'], follows_count: 0)
-      @tez = SearchableModel.create(id: 2, title: 'theresa may', keywords: ['tez'],  follows_count: 0)
+      @jez = SearchableModel.create(title: 'jeremy corbyn', keywords: ['jez'])
+      @tez = SearchableModel.create(title: 'theresa may', keywords: ['tez'])
       SearchableModel.refresh_index!
     end
     it 'returns relevant results' do
@@ -60,11 +63,17 @@ describe Stella::Searchable, type: :model do
     it 'returns raw response when raw option is set' do
       expect(SearchableModel.stella_search(term: 'jeremy', raw: true).hits.hits.first['_id']).to eq(@jez.id.to_s)
     end
-    #it 'indexes slug field by default' do
-    #  SearchableModel.create(name: 'liapunov')
-    #  SearchableModel.refresh_index!
-    #  expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include? :slug).to eq true
-    #end
+    it 'indexes slug field by default' do
+      SearchableModel.create(title: 'liapunov', slug: 'liapunov')
+      SearchableModel.refresh_index!
+      expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include? :slug).to eq true
+    end
+    it 'supports boolean filters' do
+      @liapunov = SearchableModel.create(title: 'liapunov', published: true)
+      SearchableModel.create(title: 'liapunov unpublished')
+      SearchableModel.refresh_index!
+      expect(SearchableModel.stella_search(published: true)).to eq ([@liapunov])
+    end
   end
 
   describe 'configuration errors' do

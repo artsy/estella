@@ -9,7 +9,7 @@ module Stella
     #     es_field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
     #     es_field :follows, type: :integer
     #     ...
-    #     boost :follows, modifier: log1p, factor: 1E-3
+    #     boost :follows, modifier: 'log1p', factor: 1E-3
     #   end
     # end
     #
@@ -73,10 +73,10 @@ module Stella
         @indexed_fields.merge!(field => opts)
       end
 
-      # support for mongoid::slug
+      # indexes slug field by default
       def index_slug
-        if defined? slug
-          @indexed_fields.merge!(slug: { type: 'string', index: :not_analyzed })
+        if defined? slug || @slug
+          @indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
           @indexed_json.merge!(slug: :slug)
         end
       end
