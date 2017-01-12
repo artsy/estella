@@ -1,0 +1,79 @@
+AllCops:
+  Excludes:
+    - tmp/**
+    - vendor/**
+    - .git/**
+    - ruby/**
+    - log/**
+    - public/**
+
+  TargetRubyVersion: 2.2
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+ClassLength:
+  Enabled: false
+
+SignalException:
+  # prefer fail to raise
+  EnforcedStyle: only_fail
+
+Documentation:
+  # document classes
+  Enabled: false
+
+MutableConstant:
+  Enabled: false
+
+ConditionalAssignment:
+  Enabled: false
+
+AbcSize:
+  Enabled: false
+
+GuardClause:
+  Enabled: false
+
+RedundantMerge:
+  Enabled: false
+
+AccessorMethodName:
+  Enabled: false
+
+ClassVars:
+  # TODO: review, these are things like @@configs ||= {}
+  Enabled: false
+
+Eval:
+  Enabled: false
+
+CyclomaticComplexity:
+  Enabled: false
+
+Lambda:
+  Enabled: false
+
+AsciiComments:
+  Enabled: false
+
+RegexpLiteral:
+  Enabled: false
+
+MultilineBlockChain:
+  Enabled: false
+
+Blocks:
+  Enabled: false
+
+HandleExceptions:
+  Enabled: false
+
+ParameterLists:
+  Enabled: false
+
+FavorSprintf:
+  Enabled: false

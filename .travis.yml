@@ -1,0 +1,9 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.2.2
+script:
+ - "bundle exec rubocop lib"
+ - "bundle exec rspec ."
+before_install:
+  - gem update bundler

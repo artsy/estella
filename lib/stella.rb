@@ -5,4 +5,3 @@ require 'stella/query'
 require 'stella/helpers'
 require 'stella/analysis'
 require 'stella/searchable'
-

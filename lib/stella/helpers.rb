@@ -62,7 +62,6 @@ module Stella
       end
 
       def bulk_index(batch_of_ids)
-        __elasticsearch__.client = Elasticsearch::Client.new url: ENV['ELASTICSEARCH_URL']
         __elasticsearch__.client.bulk index: index_name, type: model_name.element, body: batch_to_bulk(batch_of_ids)
       end
 

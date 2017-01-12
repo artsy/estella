@@ -22,12 +22,10 @@ module Stella
     end
 
     # override if needed
-    def add_aggregations
-    end
+    def add_aggregations; end
 
     # override if needed
-    def add_sort
-    end
+    def add_sort; end
 
     def must(filter)
       query[:filter][:bool][:must] << filter
