@@ -100,4 +100,6 @@ Artist.search MyQuery.new(term: 'frank').query
 
 For further search customization, see the [elasticsearch dsl](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl). 
 
-Stella works with any ActiveRecord compatible database (MySQL, sqlite, Postgres) as well as MongoDB.
+Stella works with any ActiveRecord or Mongoid compatible data models.
+
+Copyright (c) 2017 Artsy Inc., [MIT License](LICENSE).

@@ -3,15 +3,11 @@ require 'stella/version'
 
 Gem::Specification.new do |gem|
   gem.name = "stella"
-  gem.homepage = "http://github.com/artsy/stella"
+  gem.homepage = "https://github.com/artsy/stella"
   gem.license = "MIT"
   gem.summary = %Q{Make your Ruby objects searchable with Elasticsearch.}
   gem.version = Stella::VERSION
-
-  gem.description = <<-EOS
-    Make your Ruby objects searchable with Elasticsearch.
-  EOS
-
+  gem.description = 'Make your Ruby objects searchable with Elasticsearch.'
   gem.email = ["anil@artsy.net"]
   gem.authors = ["Anil Bawa-Cavia", "Matt Zikherman"]
 
@@ -22,8 +18,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'typhoeus', '~> 0.6.8'
   gem.add_runtime_dependency 'activesupport', '~> 4.2.2'
   gem.add_runtime_dependency 'activemodel'
-  gem.add_runtime_dependency 'activerecord'
+  gem.add_development_dependency 'activerecord'
   gem.add_development_dependency 'rspec', '~> 3.1.0'
   gem.add_development_dependency 'rspec-expectations'
-  gem.add_development_dependency 'sqlite'
+  gem.add_development_dependency 'sqlite3'
 end
