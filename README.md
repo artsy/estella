@@ -11,7 +11,7 @@ gem 'stella', github: 'artsy/stella'
 The module will try to use Elasticsearch on `localhost:9200` by default. You can configure your global ES client like so:
 
 ```ruby
-Elasticsearch::Model.client = Elasticsearch::Client.new host: myhost, log: true
+Elasticsearch::Model.client = Elasticsearch::Client.new host: 'foo.com', log: true
 ```
 
 It is also configurable on a per model basis, see the [doc](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-client).
@@ -51,14 +51,21 @@ The `filter` option allows the field to be used as a filter at search time.
 
 You can optionally provide field weightings using the `factor` option or document-level boosts using the `boost` declaration. While these are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `#stella_search`.
 
-You can now create your index and start creating documents with the following:
+You can now create your index mappings with this migration: 
 
 ```ruby
 Artist.reload_index!
+```
+
+This uses a default index naming scheme based on your model name, which you can override by implementing your own `#search_index_name` class method.
+
+Start indexing documents simply by creating or saving them:
+
+```ruby
 Artist.create(name: 'Frank Stella', keywords: ['art', 'minimalism'])
 ```
 
-Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these (namely `#es_index` and `#es_delete` if you'd like to do your indexing in a background process.
+Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these callbacks (namely `#es_index` and `#es_delete`) if you'd like to do your indexing in a background process.
 
 ## Searching
 

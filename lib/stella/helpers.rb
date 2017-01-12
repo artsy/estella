@@ -7,13 +7,7 @@ module Stella
     @@types = []
 
     included do
-      if defined? Rails
-        env = Rails.env
-      else
-        env = 'test'
-      end
-
-      index_name [search_index_name, env].join('_')
+      index_name search_index_name
 
       after_save :es_index
       after_destroy :es_delete
