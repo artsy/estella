@@ -1,5 +1,3 @@
-require 'typhoeus/adapters/faraday'
-
 module Stella
   module Helpers
     extend ActiveSupport::Concern
