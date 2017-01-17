@@ -18,7 +18,7 @@ It is also configurable on a per model basis, see the [doc](https://github.com/e
 
 ## Indexing
 
-Just include the `Stella::Searchable` module and add a `searchable` block in your ActiveRecord model declaring the fields to be indexed like so:
+Just include the `Stella::Searchable` module and add a `searchable` block in your ActiveRecord or Mongoid model declaring the fields to be indexed like so:
 
 ```ruby
 class Artist < ActiveRecord::Base
