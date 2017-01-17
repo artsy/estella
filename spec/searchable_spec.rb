@@ -12,6 +12,11 @@ describe Stella::Searchable, type: :model do
       class SearchableModel < ActiveRecord::Base
         include Stella::Searchable
 
+        def self.slug
+          # mongoid::slug support
+          'foo'
+        end
+
         searchable do
           es_field :title, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
           es_field :keywords, type: :string, analysis: [:default, :snowball], factor: 0.5
