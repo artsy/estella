@@ -7,3 +7,6 @@ script:
  - "bundle exec rspec ."
 before_install:
   - gem update bundler
+  - "curl -O https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.1.1/elasticsearch-2.1.1.deb && sudo dpkg -i --force-confnew elasticsearch-2.1.1.deb"
+  - "echo 'script.inline: on' | sudo tee -a /etc/elasticsearch/elasticsearch.yml"
+  - "sudo /etc/init.d/elasticsearch start"

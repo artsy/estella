@@ -65,7 +65,22 @@ Start indexing documents simply by creating or saving them:
 Artist.create(name: 'Frank Stella', keywords: ['art', 'minimalism'])
 ```
 
-Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these callbacks (namely `#es_index` and `#es_delete`) if you'd like to do your indexing in a background process.
+Stella adds `after_save` and `after_destroy` callbacks for inline indexing, override these callbacks if you'd like to do your indexing in a background process. For example:
+
+```ruby
+class Artist < ActiveRecord::Base
+  include Stella::Searchable
+
+  # disable stella inline callbacks
+  skip_callback(:save, :after, :es_index)
+  skip_callback(:destroy, :after, :es_delete)
+
+  # declare your own
+  after_save :delay_es_index
+  after_destroy :delay_es_delete
+  
+  ...
+end
 
 ## Searching
 
@@ -100,9 +115,24 @@ class MyQuery < Stella::Query
       }
     }
   end
+end```
+
+And then override class method `stella_search_query` to direct Stella to use your query object:
+
+```ruby
+class Artist < ActiveRecord::Base
+  include Stella::Searchable
+
+  searchable do
+    ...
+  end
+
+  def self.stella_search_query
+    MyQuery
+  end
 end
 
-Artist.search MyQuery.new(term: 'frank').query
+Artist.stella_search (term: 'frank')
 ```
 
 For further search customization, see the [elasticsearch dsl](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl). 
