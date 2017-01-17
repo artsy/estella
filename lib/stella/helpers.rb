@@ -39,7 +39,7 @@ module Stella
       ## Searching
 
       def stella_raw_search(params = {})
-        search(stella_query(params))
+        __elasticsearch__.search(stella_query(params))
       end
 
       # @return an array of database records mapped using an adapter

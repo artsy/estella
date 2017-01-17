@@ -41,7 +41,11 @@ module Stella
       def self.stella_query(params = {})
         params.merge!(field_boost)
         params.merge!(indexed_fields: indexed_fields)
-        Stella::Query.new(params).query
+        stella_search_query.new(params).query
+      end
+
+      def self.stella_search_query
+        Stella::Query
       end
     end
 
@@ -75,7 +79,7 @@ module Stella
 
       # indexes slug field by default
       def index_slug
-        if defined? slug || @slug
+        if defined? slug
           @indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
           @indexed_json.merge!(slug: :slug)
         end
