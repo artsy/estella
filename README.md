@@ -37,7 +37,7 @@ class Artist < ActiveRecord::Base
 end
 ```
 
-For a full understanding of the options available for field mappings, see the [Elastic mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html). 
+For a full understanding of the options available for field mappings, see the Elastic [mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html). 
 
 Stella defines `standard`, `snowball`, `ngram` and `shingle` analysers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:
 
@@ -49,7 +49,22 @@ Or alternatively customize your analysis by listing the analysers you want enabl
 
 The `filter` option allows the field to be used as a filter at search time.
 
-You can optionally provide field weightings using the `factor` option or document-level boosts using the `boost` declaration. While these are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `#stella_search`.
+You can optionally provide field weightings to be applied at search time using the `factor` option. These are multipliers. 
+
+Document-level boosts can be applied with the `boost` declaration, see the [field_value_factor](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-function-score-query.html#function-field-value-factor) documentation for boost options. 
+
+While `filter`, `boost` and `factor` are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `#stella_search`.
+
+The searchable block takes a `settings` hash in case you require custom analysis or sharding (see [doc](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html)):
+
+```ruby
+
+searchable my_settings do
+  ...
+end
+```
+
+It will otherwise use Stella defaults.
 
 You can now create your index mappings with this migration: 
 
@@ -57,7 +72,13 @@ You can now create your index mappings with this migration:
 Artist.reload_index!
 ```
 
-This uses a default index naming scheme based on your model name, which you can override by implementing your own `#search_index_name` class method.
+This uses a default index naming scheme based on your model name, which you can override simply by declaring
+
+```ruby
+index_name 'my_index_name'
+```
+
+in your model.
 
 Start indexing documents simply by creating or saving them:
 
@@ -81,6 +102,7 @@ class Artist < ActiveRecord::Base
   
   ...
 end
+```
 
 ## Searching
 
