@@ -58,6 +58,27 @@ While `filter`, `boost` and `factor` are query options, Stella allows for their 
 The searchable block takes a `settings` hash in case you require custom analysis or sharding (see [doc](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html)):
 
 ```ruby
+my_analysis = {
+  tokenizer: {
+    standard_tokenizer: { type: 'standard' }
+  },
+  filter: {
+    front_ngram_filter: { 
+      type: 'edgeNGram', 
+      min_gram: 2, 
+      max_gram: 15,
+      side: 'front' 
+    }
+  }
+}
+
+my_settings = { 
+  analysis: my_analysis,
+  index: { 
+    number_of_shards: 1, 
+    number_of_replicas: 1 
+  } 
+}
 
 searchable my_settings do
   ...
@@ -137,7 +158,8 @@ class MyQuery < Stella::Query
       }
     }
   end
-end```
+end
+```
 
 And then override class method `stella_search_query` to direct Stella to use your query object:
 
