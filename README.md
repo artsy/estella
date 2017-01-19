@@ -1,5 +1,7 @@
 # stella
 
+[![Build Status](https://travis-ci.org/artsy/stella.svg?branch=master)](https://travis-ci.org/artsy/stella)
+
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
 ## Installation
