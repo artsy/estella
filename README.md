@@ -1,6 +1,7 @@
 # stella
 
 [![Build Status](https://travis-ci.org/artsy/stella.svg?branch=master)](https://travis-ci.org/artsy/stella)
+[![License Status](https://git.legal/projects/3493/badge.svg)](https://git.legal/projects/3493)
 
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
@@ -41,14 +42,6 @@ end
 
 For a full understanding of the options available for field mappings, see the Elastic [mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html). 
 
-Stella defines `standard`, `snowball`, `ngram` and `shingle` analysers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:
-
-```ruby
-analysis: Stella::Analysis::FULLTEXT_ANALYSIS
-```
-
-Or alternatively customize your analysis by listing the analysers you want enabled for a given field.
-
 The `filter` option allows the field to be used as a filter at search time.
 
 You can optionally provide field weightings to be applied at search time using the `factor` option. These are multipliers. 
@@ -57,51 +50,17 @@ Document-level boosts can be applied with the `boost` declaration, see the [fiel
 
 While `filter`, `boost` and `factor` are query options, Stella allows for their static declaration in the `searchable` block for simplicity - they will be applied at query time by default when using `#stella_search`.
 
-The searchable block takes a `settings` hash in case you require custom analysis or sharding (see [doc](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html)):
-
-```ruby
-my_analysis = {
-  tokenizer: {
-    standard_tokenizer: { type: 'standard' }
-  },
-  filter: {
-    front_ngram_filter: { 
-      type: 'edgeNGram', 
-      min_gram: 2, 
-      max_gram: 15,
-      side: 'front' 
-    }
-  }
-}
-
-my_settings = { 
-  analysis: my_analysis,
-  index: { 
-    number_of_shards: 1, 
-    number_of_replicas: 1 
-  } 
-}
-
-searchable my_settings do
-  ...
-end
-```
-
-It will otherwise use Stella defaults.
-
 You can now create your index mappings with this migration: 
 
 ```ruby
 Artist.reload_index!
 ```
 
-This uses a default index naming scheme based on your model name, which you can override simply by declaring
+This uses a default index naming scheme based on your model name, which you can override simply by declaring the following in your model:
 
 ```ruby
 index_name 'my_index_name'
 ```
-
-in your model.
 
 Start indexing documents simply by creating or saving them:
 
@@ -126,6 +85,47 @@ class Artist < ActiveRecord::Base
   ...
 end
 ```
+
+## Custom Analysis
+
+Stella defines `standard`, `snowball`, `ngram` and `shingle` analysers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:
+
+```ruby
+analysis: Stella::Analysis::FULLTEXT_ANALYSIS
+```
+
+Or alternatively select your analysis by listing the analysers you want enabled for a given field:
+
+```ruby
+es_field :keywords, type: :string, analysis: ['snowball', 'shingle']
+```
+
+The searchable block takes a `settings` hash in case you require custom analysers or sharding (see [doc](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html)):
+
+```ruby
+my_analysis = {
+  tokenizer: {
+    ...
+  },
+  filter: {
+    ...
+  }
+}
+
+my_settings = { 
+  analysis: my_analysis,
+  index: { 
+    number_of_shards: 1, 
+    number_of_replicas: 1 
+  } 
+}
+
+searchable my_settings do
+  ...
+end
+```
+
+It will otherwise use Stella defaults.
 
 ## Searching
 
@@ -184,5 +184,11 @@ Artist.stella_search (term: 'frank')
 For further search customization, see the [elasticsearch dsl](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl). 
 
 Stella works with any ActiveRecord or Mongoid compatible data models.
+
+## Contributing
+
+Just fork the repo and submit a pull request.
+
+## License
 
 Copyright (c) 2017 Artsy Inc., [MIT License](LICENSE).
