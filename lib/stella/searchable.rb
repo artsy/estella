@@ -6,8 +6,8 @@ module Stella
     #
     # class Artist < ActiveRecord::Base
     #   searchable do
-    #     es_field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
-    #     es_field :follows, type: :integer
+    #     field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
+    #     field :follows, type: :integer
     #     ...
     #     boost :follows, modifier: 'log1p', factor: 1E-3
     #   end
@@ -77,7 +77,8 @@ module Stella
         @indexed_fields.merge!(field => opts)
       end
 
-      # indexes slug field by default
+      # support for mongoid::slug
+      # indexes slug attribue by default
       def index_slug
         if defined? slug
           @indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
@@ -87,7 +88,12 @@ module Stella
 
       # sets up mappings and settings for index
       def searchable(settings = Stella::Analysis::DEFAULT_SETTINGS, &block)
+        def field(field, opts = {})
+          es_field(field, opts)
+        end
+
         yield block
+
         index_slug
         indexed_fields = @indexed_fields
 
