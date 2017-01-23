@@ -55,45 +55,22 @@ module Stella
     end
 
     module ClassMethods
-      def default_analysis_fields
-        Stella::Analysis::DEFAULT_FIELDS
-      end
-
-      def boost(field, opts = {})
-        fail ArgumentError, 'Boost field is not indexed!' unless @indexed_fields.include? field
-        unless (opts.keys & [:modifier, :factor]).length == 2
-          fail ArgumentError, 'Please supply a modifier and a factor for your boost!'
-        end
-        @field_boost = { boost: { field: field }.merge(opts) }
-      end
-
-      # index a field
-      def es_field(field, opts = {})
-        using = opts[:using] || field
-        analysis = opts[:analysis] & default_analysis_fields.keys
-        opts[:fields] ||= Hash[analysis.zip(default_analysis_fields.values_at(*analysis))] if analysis
-
-        @indexed_json.merge!(field => using)
-        @indexed_fields.merge!(field => opts)
-      end
-
       # support for mongoid::slug
       # indexes slug attribue by default
       def index_slug
         if defined? slug
-          @indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
-          @indexed_json.merge!(slug: :slug)
+          indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
+          indexed_json.merge!(slug: :slug)
         end
+      end
+
+      def default_analysis_fields
+        Stella::Analysis::DEFAULT_FIELDS
       end
 
       # sets up mappings and settings for index
       def searchable(settings = Stella::Analysis::DEFAULT_SETTINGS, &block)
-        def field(field, opts = {})
-          es_field(field, opts)
-        end
-
-        yield block
-
+        Stella::Parser.new(self).instance_eval(&block)
         index_slug
         indexed_fields = @indexed_fields
 

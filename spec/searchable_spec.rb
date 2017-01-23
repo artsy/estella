@@ -79,6 +79,9 @@ describe Stella::Searchable, type: :model do
       SearchableModel.refresh_index!
       expect(SearchableModel.stella_search(published: true)).to eq ([@liapunov])
     end
+    it 'does not override field method on class' do
+      expect(SearchableModel.methods.include? :field).to eq(false)
+    end
   end
 
   describe 'configuration errors' do
