@@ -18,10 +18,10 @@ describe Stella::Searchable, type: :model do
         end
 
         searchable do
-          es_field :title, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-          es_field :keywords, type: :string, analysis: [:default, :snowball], factor: 0.5
-          es_field :follows_count, type: :integer
-          es_field :published, type: :boolean, filter: true
+          field :title, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+          field :keywords, type: :string, analysis: [:default, :snowball], factor: 0.5
+          field :follows_count, type: :integer
+          field :published, type: :boolean, filter: true
 
           boost :follows_count, modifier: 'log2p', factor: 5E-4, max: 1.0
         end
@@ -79,6 +79,9 @@ describe Stella::Searchable, type: :model do
       SearchableModel.refresh_index!
       expect(SearchableModel.stella_search(published: true)).to eq ([@liapunov])
     end
+    it 'does not override field method on class' do
+      expect(SearchableModel.methods.include? :field).to eq(false)
+    end
   end
 
   describe 'configuration errors' do
@@ -95,7 +98,7 @@ describe Stella::Searchable, type: :model do
         class BadSearchableModel < ActiveRecord::Base
           include Stella::Searchable
           searchable do
-            es_field :follows_count, type: 'integer'
+            field :follows_count, type: 'integer'
             boost :follows_count
           end
         end

@@ -28,12 +28,12 @@ class Artist < ActiveRecord::Base
     include Stella::Searchable
 
     searchable do
-      es_field :name, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-      es_field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
-      es_field :bio, using: :biography, type: :string, index: :not_analyzed
-      es_field :birth_date, type: :date
-      es_field :follows, type: :integer
-      es_field :published, type: :boolean, filter: true
+      field :name, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+      field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
+      field :bio, using: :biography, type: :string, index: :not_analyzed
+      field :birth_date, type: :date
+      field :follows, type: :integer
+      field :published, type: :boolean, filter: true
       boost :follows, modifier: 'log1p', factor: 1E-3
     end
     ...
