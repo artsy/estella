@@ -1,5 +1,6 @@
 # estella
 
+[![Gem Version](https://badge.fury.io/rb/estella.svg)](https://badge.fury.io/rb/estella)
 [![Build Status](https://travis-ci.org/artsy/estella.svg?branch=master)](https://travis-ci.org/artsy/estella)
 [![License Status](https://git.legal/projects/3493/badge.svg)](https://git.legal/projects/3493)
 
