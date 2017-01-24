@@ -1,10 +1,10 @@
 language: ruby
+
 cache: bundler
+
 rvm:
   - 2.2.2
-script:
- - "bundle exec rubocop lib"
- - "bundle exec rspec ."
+
 before_install:
   - gem update bundler
   - "curl -O https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.1.1/elasticsearch-2.1.1.deb && sudo dpkg -i --force-confnew elasticsearch-2.1.1.deb"

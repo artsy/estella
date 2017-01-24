@@ -1,4 +1,4 @@
-module Stella
+module Estella
   module Analysis
     # Default Elasticsearch analysers
     extend ActiveSupport::Concern
@@ -51,11 +51,11 @@ module Stella
 
     FULLTEXT_ANALYSIS = DEFAULT_FIELDS.keys
 
-    if defined? Rails && Rails.env == 'test'
-      # Ensure no sharding in test env in order to enforce deterministic scores.
-      DEFAULT_SETTINGS = { analysis: DEFAULT_ANALYSIS, index: { number_of_shards: 1, number_of_replicas: 1 } }
-    else
-      DEFAULT_SETTINGS = { analysis: DEFAULT_ANALYSIS }
-    end
+    DEFAULT_SETTINGS = if defined? Rails && Rails.env == 'test'
+                         # Ensure no sharding in test env in order to enforce deterministic scores.
+                         { analysis: DEFAULT_ANALYSIS, index: { number_of_shards: 1, number_of_replicas: 1 } }
+                       else
+                         { analysis: DEFAULT_ANALYSIS }
+                       end
   end
 end

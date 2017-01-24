@@ -1,4 +1,4 @@
-module Stella
+module Estella
   module Helpers
     extend ActiveSupport::Concern
 

@@ -1,16 +1,16 @@
 require 'spec_helper'
-require 'stella'
+require 'estella'
 require 'active_record'
 
-describe Stella::Searchable, type: :model do
+describe Estella::Searchable, type: :model do
   before do
-    ActiveRecord::Base.establish_connection( adapter: 'sqlite3', database: ":memory:" )
+    ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
   end
 
   describe 'searchable model', elasticsearch: true do
     before do
       class SearchableModel < ActiveRecord::Base
-        include Stella::Searchable
+        include Estella::Searchable
 
         def self.slug
           # mongoid::slug support
@@ -18,7 +18,7 @@ describe Stella::Searchable, type: :model do
         end
 
         searchable do
-          field :title, type: :string, analysis: Stella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+          field :title, type: :string, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
           field :keywords, type: :string, analysis: [:default, :snowball], factor: 0.5
           field :follows_count, type: :integer
           field :published, type: :boolean, filter: true
@@ -55,7 +55,7 @@ describe Stella::Searchable, type: :model do
       expect(SearchableModel.stella_search(term: 'jez')).to eq([@jez])
     end
     it 'boosts on follows_count' do
-      popular_jeremy = SearchableModel.create(title: 'jeremy corban', follows_count: 20000)
+      popular_jeremy = SearchableModel.create(title: 'jeremy corban', follows_count: 20_000)
       SearchableModel.refresh_index!
       expect(SearchableModel.stella_search(term: 'jeremy')).to eq([popular_jeremy, @jez])
     end
@@ -71,24 +71,24 @@ describe Stella::Searchable, type: :model do
     it 'indexes slug field by default' do
       SearchableModel.create(title: 'liapunov', slug: 'liapunov')
       SearchableModel.refresh_index!
-      expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include? :slug).to eq true
+      expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include?(:slug)).to eq true
     end
     it 'supports boolean filters' do
       @liapunov = SearchableModel.create(title: 'liapunov', published: true)
       SearchableModel.create(title: 'liapunov unpublished')
       SearchableModel.refresh_index!
-      expect(SearchableModel.stella_search(published: true)).to eq ([@liapunov])
+      expect(SearchableModel.stella_search(published: true)).to eq [@liapunov]
     end
     it 'does not override field method on class' do
-      expect(SearchableModel.methods.include? :field).to eq(false)
+      expect(SearchableModel.methods.include?(:field)).to eq(false)
     end
   end
 
   describe 'configuration errors' do
     it 'raises error when boost field is invalid' do
       expect do
-        class BadSearchableModel  < ActiveRecord::Base
-          include Stella::Searchable
+        class BadSearchableModel < ActiveRecord::Base
+          include Estella::Searchable
           searchable { boost :follows_count }
         end
       end.to raise_error(ArgumentError, 'Boost field is not indexed!')
@@ -96,7 +96,7 @@ describe Stella::Searchable, type: :model do
     it 'raises error when boost params are not set' do
       expect do
         class BadSearchableModel < ActiveRecord::Base
-          include Stella::Searchable
+          include Estella::Searchable
           searchable do
             field :follows_count, type: 'integer'
             boost :follows_count
