@@ -44,29 +44,29 @@ describe Estella::Searchable, type: :model do
     end
     it 'returns relevant results' do
       expect(SearchableModel.all.size).to eq(2)
-      expect(SearchableModel.stella_search(term: 'jeremy')).to eq([@jez])
-      expect(SearchableModel.stella_search(term: 'theresa')).to eq([@tez])
+      expect(SearchableModel.estella_search(term: 'jeremy')).to eq([@jez])
+      expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
     end
     it 'uses ngram analysis by default' do
-      expect(SearchableModel.stella_search(term: 'jer')).to eq([@jez])
-      expect(SearchableModel.stella_search(term: 'there')).to eq([@tez])
+      expect(SearchableModel.estella_search(term: 'jer')).to eq([@jez])
+      expect(SearchableModel.estella_search(term: 'there')).to eq([@tez])
     end
     it 'searches all text fields by default' do
-      expect(SearchableModel.stella_search(term: 'jez')).to eq([@jez])
+      expect(SearchableModel.estella_search(term: 'jez')).to eq([@jez])
     end
     it 'boosts on follows_count' do
       popular_jeremy = SearchableModel.create(title: 'jeremy corban', follows_count: 20_000)
       SearchableModel.refresh_index!
-      expect(SearchableModel.stella_search(term: 'jeremy')).to eq([popular_jeremy, @jez])
+      expect(SearchableModel.estella_search(term: 'jeremy')).to eq([popular_jeremy, @jez])
     end
     it 'uses factor option to weight fields' do
       @dude = SearchableModel.create(keywords: ['dude'])
       @dude2 = SearchableModel.create(title: 'dude')
       SearchableModel.refresh_index!
-      expect(SearchableModel.stella_search(term: 'dude')).to eq([@dude2, @dude])
+      expect(SearchableModel.estella_search(term: 'dude')).to eq([@dude2, @dude])
     end
     it 'returns raw response when raw option is set' do
-      expect(SearchableModel.stella_search(term: 'jeremy', raw: true).hits.hits.first['_id']).to eq(@jez.id.to_s)
+      expect(SearchableModel.estella_search(term: 'jeremy', raw: true).hits.hits.first['_id']).to eq(@jez.id.to_s)
     end
     it 'indexes slug field by default' do
       SearchableModel.create(title: 'liapunov', slug: 'liapunov')
@@ -77,7 +77,7 @@ describe Estella::Searchable, type: :model do
       @liapunov = SearchableModel.create(title: 'liapunov', published: true)
       SearchableModel.create(title: 'liapunov unpublished')
       SearchableModel.refresh_index!
-      expect(SearchableModel.stella_search(published: true)).to eq [@liapunov]
+      expect(SearchableModel.estella_search(published: true)).to eq [@liapunov]
     end
     it 'does not override field method on class' do
       expect(SearchableModel.methods.include?(:field)).to eq(false)
