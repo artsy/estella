@@ -1,4 +1,4 @@
-module Stella
+module Estella
   class Query
     # Constructs a search query for ES
     attr_accessor :query
@@ -84,7 +84,7 @@ module Stella
     end
 
     def field_factors
-      Stella::Analysis::DEFAULT_FIELD_FACTORS
+      Estella::Analysis::DEFAULT_FIELD_FACTORS
     end
 
     # search all analysed string fields by default

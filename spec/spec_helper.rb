@@ -2,7 +2,7 @@ require 'active_support'
 require 'active_model'
 require 'rspec'
 
-require File.expand_path("../../lib/stella.rb", __FILE__)
+require File.expand_path('../../lib/estella.rb', __FILE__)
 
 RSpec.configure do |config|
   config.mock_with :rspec do |c|
@@ -17,6 +17,6 @@ RSpec.configure do |config|
 
   config.before(:context, elasticsearch: true) do
     Elasticsearch::Model.client = Elasticsearch::Client.new
-    Stella::Helpers.types.each { |type| type.__elasticsearch__.client = nil } # clear memoized clients
+    Estella::Helpers.types.each { |type| type.__elasticsearch__.client = nil } # clear memoized clients
   end
 end

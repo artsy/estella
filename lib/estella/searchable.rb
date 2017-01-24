@@ -1,4 +1,4 @@
-module Stella
+module Estella
   module Searchable
     # Makes your ActiveRecord model searchable via Elasticsearch
     #
@@ -6,7 +6,7 @@ module Stella
     #
     # class Artist < ActiveRecord::Base
     #   searchable do
-    #     field :name, type: :string, using: :my_attr, analysis: Stella::Analysis::FULLTEXT_ANALYSIS
+    #     field :name, type: :string, using: :my_attr, analysis: Estella::Analysis::FULLTEXT_ANALYSIS
     #     field :follows, type: :integer
     #     ...
     #     boost :follows, modifier: 'log1p', factor: 1E-3
@@ -27,8 +27,8 @@ module Stella
 
     included do
       include Elasticsearch::Model
-      include Stella::Helpers
-      include Stella::Analysis
+      include Estella::Helpers
+      include Estella::Analysis
 
       @indexed_json = {}
       @indexed_fields = {}
@@ -45,7 +45,7 @@ module Stella
       end
 
       def self.stella_search_query
-        Stella::Query
+        Estella::Query
       end
     end
 
@@ -65,12 +65,12 @@ module Stella
       end
 
       def default_analysis_fields
-        Stella::Analysis::DEFAULT_FIELDS
+        Estella::Analysis::DEFAULT_FIELDS
       end
 
       # sets up mappings and settings for index
-      def searchable(settings = Stella::Analysis::DEFAULT_SETTINGS, &block)
-        Stella::Parser.new(self).instance_eval(&block)
+      def searchable(settings = Estella::Analysis::DEFAULT_SETTINGS, &block)
+        Estella::Parser.new(self).instance_eval(&block)
         index_slug
         indexed_fields = @indexed_fields
 

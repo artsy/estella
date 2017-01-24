@@ -1,4 +1,4 @@
-module Stella
+module Estella
   class Parser
     def initialize(model)
       @model = model
