@@ -21,7 +21,7 @@ module Estella
     #
     # And perform full-text search using:
     #
-    # Artist.stella_search(term: x)
+    # Artist.estella_search(term: x)
     #
     extend ActiveSupport::Concern
 
@@ -38,13 +38,13 @@ module Estella
         attr_accessor :indexed_json, :indexed_fields, :field_boost
       end
 
-      def self.stella_query(params = {})
+      def self.estella_query(params = {})
         params.merge!(field_boost)
         params.merge!(indexed_fields: indexed_fields)
-        stella_search_query.new(params).query
+        estella_search_query.new(params).query
       end
 
-      def self.stella_search_query
+      def self.estella_search_query
         Estella::Query
       end
     end
