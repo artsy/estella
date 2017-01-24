@@ -15,12 +15,12 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- spec/*`.split("\n")
 
   gem.add_runtime_dependency 'elasticsearch-model'
-  gem.add_runtime_dependency 'activesupport', '~> 4.2.2'
+  gem.add_runtime_dependency 'activesupport'
   gem.add_runtime_dependency 'activemodel'
 
   gem.add_development_dependency 'activerecord'
   gem.add_development_dependency 'rspec', '~> 3.1.0'
   gem.add_development_dependency 'rspec-expectations'
   gem.add_development_dependency 'sqlite3'
-  gem.add_development_dependency 'rubocop', '~> 0.46.0'
+  gem.add_development_dependency 'rubocop', '0.46.0'
 end
