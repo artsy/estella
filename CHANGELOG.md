@@ -2,6 +2,7 @@
 
 ### 0.2.2 (Next)
 
+* [#14](https://github.com/artsy/estella/pull/14): Fix: destroying documents fails to remove them from the index - [@dblock](https://github.com/dblock).
 * [#13](https://github.com/artsy/estella/pull/13): Added code coverage w/ Coveralls - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
