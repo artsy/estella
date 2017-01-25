@@ -2,17 +2,12 @@ require 'active_support'
 require 'active_model'
 require 'rspec'
 
+require 'coveralls'
+Coveralls.wear!
+
 require File.expand_path('../../lib/estella.rb', __FILE__)
 
 RSpec.configure do |config|
-  config.mock_with :rspec do |c|
-    c.syntax = :expect
-  end
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-
   config.raise_errors_for_deprecations!
 
   config.before(:context, elasticsearch: true) do
