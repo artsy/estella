@@ -82,6 +82,11 @@ describe Estella::Searchable, type: :model do
     it 'does not override field method on class' do
       expect(SearchableModel.methods.include?(:field)).to eq(false)
     end
+    it 'removes a document from the index after deletion' do
+      @jez.destroy
+      expect(SearchableModel.estella_search(term: 'jeremy')).to eq([])
+      expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
+    end
   end
 
   describe 'configuration errors' do

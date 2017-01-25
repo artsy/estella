@@ -28,7 +28,7 @@ module Estella
     end
 
     def es_delete
-      es_delete_document id
+      self.class.es_delete_document(id)
     end
 
     def es_transform
