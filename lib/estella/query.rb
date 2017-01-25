@@ -109,17 +109,5 @@ module Estella
         end
       end
     end
-
-    def bool_filter(field, param)
-      if param
-        { term: { field => true } }
-      elsif !param.nil?
-        { term: { field => false } }
-      end
-    end
-
-    def add_bool_filter(field, param)
-      must bool_filter(field, param) if bool_filter(field, param)
-    end
   end
 end
