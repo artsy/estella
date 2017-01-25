@@ -3,6 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/estella.svg)](https://badge.fury.io/rb/estella)
 [![Build Status](https://travis-ci.org/artsy/estella.svg?branch=master)](https://travis-ci.org/artsy/estella)
 [![License Status](https://git.legal/projects/3493/badge.svg)](https://git.legal/projects/3493)
+[![Coverage Status](https://coveralls.io/repos/github/artsy/estella/badge.svg?branch=master)](https://coveralls.io/github/artsy/estella?branch=master)
 
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
