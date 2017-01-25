@@ -92,10 +92,6 @@ module Estella
         __elasticsearch__.refresh_index!
       end
 
-      def set_index_alias!(name)
-        __elasticsearch__.client.indices.put_alias index: index_name, name: name
-      end
-
       def es_delete_document(id)
         __elasticsearch__.client.delete type: document_type, id: id, index: index_name
       end
