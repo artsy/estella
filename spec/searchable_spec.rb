@@ -40,10 +40,11 @@ describe Estella::Searchable, type: :model do
       SearchableModel.reload_index!
       @jez = SearchableModel.create(title: 'jeremy corbyn', keywords: ['jez'])
       @tez = SearchableModel.create(title: 'theresa may', keywords: ['tez'])
+      @fab = SearchableModel.create(title: 'david faber', keywords: ['fab'])
       SearchableModel.refresh_index!
     end
     it 'returns relevant results' do
-      expect(SearchableModel.all.size).to eq(2)
+      expect(SearchableModel.all.size).to eq(3)
       expect(SearchableModel.estella_search(term: 'jeremy')).to eq([@jez])
       expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
     end
@@ -74,10 +75,10 @@ describe Estella::Searchable, type: :model do
       expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].keys.include?(:slug)).to eq true
     end
     it 'supports boolean filters' do
-      @liapunov = SearchableModel.create(title: 'liapunov', published: true)
+      liapunov = SearchableModel.create(title: 'liapunov', published: true)
       SearchableModel.create(title: 'liapunov unpublished')
       SearchableModel.refresh_index!
-      expect(SearchableModel.estella_search(published: true)).to eq [@liapunov]
+      expect(SearchableModel.estella_search(published: true)).to eq [liapunov]
     end
     it 'does not override field method on class' do
       expect(SearchableModel.methods.include?(:field)).to eq(false)
@@ -87,11 +88,22 @@ describe Estella::Searchable, type: :model do
       expect(SearchableModel.estella_search(term: 'jeremy')).to eq([])
       expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
     end
-    it 'recreates an index' do
-      SearchableModel.__elasticsearch__.client.indices.delete(index: SearchableModel.index_name)
-      expect { SearchableModel.estella_search(term: 'theresa') }.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
-      SearchableModel.recreate_index!
-      expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
+    context 'with a deleted index' do
+      before do
+        SearchableModel.delete_index!
+      end
+      it 'recreates an index' do
+        expect { SearchableModel.estella_search(term: 'theresa') }.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
+        SearchableModel.recreate_index!
+        expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
+      end
+      it 'indexes a bulk set of documents' do
+        SearchableModel.bulk_index([@fab.id, @tez.id])
+        SearchableModel.refresh_index!
+        expect(SearchableModel.estella_search(term: 'jeremy')).to eq([]) # not indexes
+        expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
+        expect(SearchableModel.estella_search(term: 'david')).to eq([@fab])
+      end
     end
   end
 

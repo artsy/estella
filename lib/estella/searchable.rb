@@ -56,7 +56,7 @@ module Estella
 
     module ClassMethods
       # support for mongoid::slug
-      # indexes slug attribue by default
+      # indexes slug attribute by default
       def index_slug
         if defined? slug
           indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
