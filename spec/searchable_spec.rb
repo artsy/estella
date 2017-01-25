@@ -87,6 +87,12 @@ describe Estella::Searchable, type: :model do
       expect(SearchableModel.estella_search(term: 'jeremy')).to eq([])
       expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
     end
+    it 'recreates an index' do
+      SearchableModel.__elasticsearch__.client.indices.delete(index: SearchableModel.index_name)
+      expect { SearchableModel.estella_search(term: 'theresa') }.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
+      SearchableModel.recreate_index!
+      expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
+    end
   end
 
   describe 'configuration errors' do
