@@ -38,13 +38,13 @@ module Estella
     module ClassMethods
       ## Searching
 
-      def stella_raw_search(params = {})
+      def estella_raw_search(params = {})
         __elasticsearch__.search(estella_query(params))
       end
 
       # @return an array of database records mapped using an adapter
       def estella_search(params = {})
-        rsp = stella_raw_search(params)
+        rsp = estella_raw_search(params)
         params[:raw] ? rsp.response : rsp.records.to_a
       end
 
