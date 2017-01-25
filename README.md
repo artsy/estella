@@ -88,6 +88,28 @@ class Artist < ActiveRecord::Base
 end
 ```
 
+A number of class methods are available for indexing.
+
+```
+# returns true if the index exists
+Artist.index_exists?
+
+# creates the index
+Artist.create_index!
+
+# delete and re-create the index without reindexing data
+Artist.reload_index!
+
+# recreate the index and reindex all data
+Artist.recreate_index!
+
+# deletes the index
+Artist.delete_index!
+
+# commit any outstanding writes
+Artist.refresh_index!
+```
+
 ## Custom Analysis
 
 Estella defines `standard`, `snowball`, `ngram` and `shingle` analysers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:

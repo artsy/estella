@@ -60,16 +60,26 @@ module Estella
       end
 
       def bulk_index(batch_of_ids)
+        create_index! unless index_exists?
         __elasticsearch__.client.bulk index: index_name, type: model_name.element, body: batch_to_bulk(batch_of_ids)
       end
 
+      # @return true if the index exists
       def index_exists?
         __elasticsearch__.client.indices.exists index: index_name
       end
 
-      def reload_index!
-        __elasticsearch__.client.indices.delete index: index_name if index_exists?
+      def delete_index!
+        __elasticsearch__.client.indices.delete index: index_name
+      end
+
+      def create_index!
         __elasticsearch__.client.indices.create index: index_name, body: { settings: settings.to_hash, mappings: mappings.to_hash }
+      end
+
+      def reload_index!
+        delete_index! if index_exists?
+        create_index!
       end
 
       def recreate_index!
@@ -80,10 +90,6 @@ module Estella
 
       def refresh_index!
         __elasticsearch__.refresh_index!
-      end
-
-      def set_index_alias!(name)
-        __elasticsearch__.client.indices.put_alias index: index_name, name: name
       end
 
       def es_delete_document(id)
