@@ -55,6 +55,9 @@ describe Estella::Searchable, type: :model do
     it 'searches all text fields by default' do
       expect(SearchableModel.estella_search(term: 'jez')).to eq([@jez])
     end
+    it 'can exclude an instance' do
+      expect(SearchableModel.estella_search(term: 'jez tez fab', exclude: { keywords: 'jez' })).to eq([@fab, @tez])
+    end
     it 'boosts on follows_count' do
       popular_jeremy = SearchableModel.create(title: 'jeremy corban', follows_count: 20_000)
       SearchableModel.refresh_index!
@@ -103,6 +106,22 @@ describe Estella::Searchable, type: :model do
         expect(SearchableModel.estella_search(term: 'jeremy')).to eq([]) # not indexes
         expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
         expect(SearchableModel.estella_search(term: 'david')).to eq([@fab])
+      end
+    end
+    context 'with query customization' do
+      before do
+        class CustomQuery < Estella::Query
+          def initialize(params)
+            super
+            exclude term: { keywords: 'jez' }
+          end
+        end
+
+        allow(SearchableModel).to receive(:estella_search_query).and_return(CustomQuery)
+      end
+
+      it 'uses the custom query' do
+        expect(SearchableModel.estella_search(term: 'jez tez fab')).to eq([@fab, @tez])
       end
     end
   end
