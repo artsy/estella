@@ -27,18 +27,17 @@ Just include the `Estella::Searchable` module and add a `searchable` block in yo
 
 ```ruby
 class Artist < ActiveRecord::Base
-    include Estella::Searchable
+  include Estella::Searchable
 
-    searchable do
-      field :name, type: :string, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-      field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
-      field :bio, using: :biography, type: :string, index: :not_analyzed
-      field :birth_date, type: :date
-      field :follows, type: :integer
-      field :published, type: :boolean, filter: true
-      boost :follows, modifier: 'log1p', factor: 1E-3
-    end
-    ...
+  searchable do
+    field :name, type: :string, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+    field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
+    field :bio, using: :biography, type: :string, index: :not_analyzed
+    field :birth_date, type: :date
+    field :follows, type: :integer
+    field :published, type: :boolean, filter: true
+    boost :follows, modifier: 'log1p', factor: 1E-3
+  end
 end
 ```
 
@@ -173,7 +172,13 @@ Artist.estella_search(term: 'frank', published: true)
 Artist.estella_search(term: 'frank', size: 10, from: 5)
 ```
 
-If you'd like to customize your query further, you can extend `Estella::Query` and override the `query_definition`:
+You can exclude records.
+
+```ruby
+Artist.estella_search(term: 'frank', exclude: { keywords: 'sinatra' })
+```
+
+If you'd like to customize your query further, you can extend `Estella::Query` and override `query_definition` and `field_factors`:
 
 ```ruby
 class MyQuery < Estella::Query
@@ -183,6 +188,30 @@ class MyQuery < Estella::Query
         ...
       }
     }
+  end
+
+  def field_factors
+    {
+      default: 5,
+      ngram: 5,
+      snowball: 2,
+      shingle: 1,
+      search: 1
+    }
+  end
+end
+```
+
+Or manipulate the query in the initializer directly via `query` or using built-in helpers `must` and `exclude`.
+
+```ruby
+class MyQuery < Estella::Query
+  def initialize(params)
+    super
+    # same as query[:filter][:bool][:must] = { keywords: 'frank' }
+    must term: { keywords: 'frank' }
+    # same as query[:filter][:bool][:must_not] = { keywords: 'sinatra' }
+    exclude term: { keywords: 'sinatra' }
   end
 end
 ```

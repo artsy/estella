@@ -16,16 +16,9 @@ module Estella
       }
       add_query
       add_filters
+      add_excludes
       add_pagination
-      add_aggregations if params[:aggregations]
-      add_sort
     end
-
-    # override if needed
-    def add_aggregations; end
-
-    # override if needed
-    def add_sort; end
 
     def must(filter)
       query[:filter][:bool][:must] << filter
@@ -34,6 +27,22 @@ module Estella
     def exclude(filter)
       query[:filter][:bool][:must_not] << filter
     end
+
+    def query_definition
+      {
+        multi_match: {
+          type: 'most_fields',
+          fields: term_search_fields,
+          query: params[:term]
+        }
+      }
+    end
+
+    def field_factors
+      Estella::Analysis::DEFAULT_FIELD_FACTORS
+    end
+
+    private
 
     def add_pagination
       query[:size] = params[:size] if params[:size]
@@ -59,32 +68,19 @@ module Estella
       add_field_boost
     end
 
-    def query_definition
-      {
-        multi_match: {
-          type: 'most_fields',
-          fields: term_search_fields,
-          query: params[:term]
-        }
-      }
-    end
-
     def add_field_boost
-      if params[:boost]
-        query[:query][:function_score][:field_value_factor] = {
-          field: params[:boost][:field],
-          modifier: params[:boost][:modifier],
-          factor: params[:boost][:factor]
-        }
+      boost = params[:boost]
+      return unless boost
 
-        if params[:boost][:max]
-          query[:query][:function_score][:max_boost] = params[:boost][:max]
-        end
-      end
-    end
+      query[:query][:function_score][:field_value_factor] = {
+        field: boost[:field],
+        modifier: boost[:modifier],
+        factor: boost[:factor]
+      }
 
-    def field_factors
-      Estella::Analysis::DEFAULT_FIELD_FACTORS
+      max = boost[:max]
+      return unless max
+      query[:query][:function_score][:max_boost] = max
     end
 
     # search all analysed string fields by default
@@ -103,10 +99,19 @@ module Estella
     end
 
     def add_filters
-      if params[:indexed_fields]
-        params[:indexed_fields].each do |field, opts|
-          must term: { field => params[field] } if opts[:filter] && params[field]
-        end
+      indexed_fields = params[:indexed_fields]
+      return unless indexed_fields
+      indexed_fields.each do |field, opts|
+        next unless opts[:filter] && params[field]
+        must term: { field => params[field] }
+      end
+    end
+
+    def add_excludes
+      exclude = params[:exclude]
+      return unless exclude
+      exclude.each do |k, v|
+        exclude(term: { k => v })
       end
     end
   end
