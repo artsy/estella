@@ -11,3 +11,6 @@ before_install:
   - "echo 'script.inline: on' | sudo tee -a /etc/elasticsearch/elasticsearch.yml"
   - "sudo /etc/init.d/elasticsearch start"
   - "sleep 5"
+
+before_script:
+  - bundle exec danger

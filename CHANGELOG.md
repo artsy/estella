@@ -2,7 +2,8 @@
 
 # 0.3.1 (Next)
 
-* [#20](https://github.com/artsy/estella/pull/20): Added ES compaibility note to readme.
+* [#21](https://github.com/artsy/estella/pull/21): Added Danger, PR linter - [@dblock](https://github.com/dblock).
+* [#20](https://github.com/artsy/estella/pull/20): Documented ES compatibility with 2.x - [@cavvia](https://github.com/cavvia).
 
 ### 0.3.0 (1/29/2017)
 
