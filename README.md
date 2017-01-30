@@ -7,13 +7,24 @@
 
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
+## Dependencies
+
+* [Elasticsearch 2.x](https://www.elastic.co/products/elasticsearch)
+* [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model)
+* [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport)
+* [ActiveModel](https://github.com/rails/rails/tree/master/activemodel)
+
+Note: Estella is only tested against ES 2.x at this stage.
+
 ## Installation
 
 ```
 gem 'estella'
 ```
 
-The module will try to use Elasticsearch on `localhost:9200` by default. You can configure your global ES client like so:
+The module will try to use Elasticsearch on `localhost:9200` by default. 
+
+You can configure your global ES client like so:
 
 ```ruby
 Elasticsearch::Model.client = Elasticsearch::Client.new host: 'foo.com', log: true

@@ -1,6 +1,10 @@
 ## Changelog
 
-### 0.3.0 (Next)
+# 0.3.1 (Next)
+
+* [#20](https://github.com/artsy/estella/pull/20): Added ES compaibility note to readme.
+
+### 0.3.0 (1/29/2017)
 
 * [#15](https://github.com/artsy/estella/pull/15): Removed undocumented `set_index_alias!` - [@dblock](https://github.com/dblock).
 * [#15](https://github.com/artsy/estella/pull/15): Added `delete_index!` and `create_index!` - [@dblock](https://github.com/dblock).
