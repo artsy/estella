@@ -1,6 +1,6 @@
 ## Changelog
 
-# 0.3.1 (Next)
+### 0.3.1 (Next)
 
 * [#21](https://github.com/artsy/estella/pull/21): Added Danger, PR linter - [@dblock](https://github.com/dblock).
 * [#20](https://github.com/artsy/estella/pull/20): Documented ES compatibility with 2.x - [@cavvia](https://github.com/cavvia).
