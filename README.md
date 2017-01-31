@@ -7,14 +7,15 @@
 
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
+## Compatibility
+
+This library is compatible with [Elasticsearch 2.x](https://www.elastic.co/products/elasticsearch) and currently does not work with Elasticsearch 5.x (see [#18](https://github.com/artsy/estella/issues/18)). It works with many ORM/ODMs, including ActiveRecord and Mongoid.
+
 ## Dependencies
 
-* [Elasticsearch 2.x](https://www.elastic.co/products/elasticsearch)
 * [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model)
 * [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport)
 * [ActiveModel](https://github.com/rails/rails/tree/master/activemodel)
-
-Note: Estella is only tested against ES 2.x at this stage.
 
 ## Installation
 
@@ -22,19 +23,19 @@ Note: Estella is only tested against ES 2.x at this stage.
 gem 'estella'
 ```
 
-The module will try to use Elasticsearch on `localhost:9200` by default. 
+Estella will try to use Elasticsearch on `localhost:9200` by default.
 
-You can configure your global ES client like so:
+You can configure your global ElasticSearch client like so:
 
 ```ruby
 Elasticsearch::Model.client = Elasticsearch::Client.new host: 'foo.com', log: true
 ```
 
-It is also configurable on a per model basis, see the [doc](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-client).
+It's also configurable on a per-model basis. Refer to the [ElasticSearch documentation](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-client) for details.
 
 ## Indexing
 
-Just include the `Estella::Searchable` module and add a `searchable` block in your ActiveRecord or Mongoid model declaring the fields to be indexed like so:
+Include the `Estella::Searchable` module and add a `searchable` block in your model declaring the fields to be indexed.
 
 ```ruby
 class Artist < ActiveRecord::Base
@@ -52,7 +53,7 @@ class Artist < ActiveRecord::Base
 end
 ```
 
-For a full understanding of the options available for field mappings, see the Elastic [mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html).
+For a full list of the options available for field mappings, see the ElasticSearch [mapping documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping.html).
 
 The `filter` option allows the field to be used as a filter at search time.
 
@@ -101,10 +102,10 @@ end
 A number of class methods are available for indexing.
 
 ```
-# returns true if the index exists
+# return true if the index exists
 Artist.index_exists?
 
-# creates the index
+# create the index
 Artist.create_index!
 
 # delete and re-create the index without reindexing data
@@ -113,7 +114,7 @@ Artist.reload_index!
 # recreate the index and reindex all data
 Artist.recreate_index!
 
-# deletes the index
+# delete the index
 Artist.delete_index!
 
 # commit any outstanding writes
@@ -122,19 +123,19 @@ Artist.refresh_index!
 
 ## Custom Analysis
 
-Estella defines `standard`, `snowball`, `ngram` and `shingle` analysers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:
+Estella defines `standard`, `snowball`, `ngram` and `shingle` analyzers by default. These cover most search contexts, including auto-suggest. In order to enable full-text search for a field, use:
 
 ```ruby
 analysis: Estella::Analysis::FULLTEXT_ANALYSIS
 ```
 
-Or alternatively select your analysis by listing the analysers you want enabled for a given field:
+Or alternatively select your analysis by listing the analyzers you want enabled for a given field:
 
 ```ruby
-es_field :keywords, type: :string, analysis: ['snowball', 'shingle']
+field :keywords, type: :string, analysis: ['snowball', 'shingle']
 ```
 
-The searchable block takes a `settings` hash in case you require custom analysers or sharding (see [doc](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html)):
+Estella default analyzer and sharding options are defined [here](lib/estella/analysis.rb) and can be customized by passing a `settings` hash to the `searchable` block.
 
 ```ruby
 my_analysis = {
@@ -159,18 +160,18 @@ searchable my_settings do
 end
 ```
 
-It will otherwise use Estella defaults.
+See [configuring analyzers](https://www.elastic.co/guide/en/elasticsearch/guide/current/configuring-analyzers.html) for more information.
 
 ## Searching
 
-Finally perform full-text search:
+Perform full-text search with `estella_search`:
 
 ```ruby
 Artist.estella_search(term: 'frank')
 Artist.estella_search(term: 'minimalism')
 ```
 
-Estella searches all analysed text fields by default, using a [multi_match](https://www.elastic.co/guide/en/elasticsearch/guide/current/multi-match-query.html) search. The search will return an array of database records in score order. If you'd like access to the raw Elasticsearch response data use the `raw` option:
+Estella searches all analyzed text fields by default, using a [multi_match](https://www.elastic.co/guide/en/elasticsearch/guide/current/multi-match-query.html) search. The search will return an array of database records, ordered by score. If you'd like access to the raw Elasticsearch response data use the `raw` option:
 
 ```ruby
 Artist.estella_search(term: 'frank', raw: true)
@@ -183,13 +184,13 @@ Artist.estella_search(term: 'frank', published: true)
 Artist.estella_search(term: 'frank', size: 10, from: 5)
 ```
 
-You can exclude records.
+You can exclude records:
 
 ```ruby
 Artist.estella_search(term: 'frank', exclude: { keywords: 'sinatra' })
 ```
 
-If you'd like to customize your query further, you can extend `Estella::Query` and override `query_definition` and `field_factors`:
+If you'd like to customize your term query further, you can extend `Estella::Query` and override `query_definition` and `field_factors`:
 
 ```ruby
 class MyQuery < Estella::Query
@@ -213,16 +214,16 @@ class MyQuery < Estella::Query
 end
 ```
 
-Or manipulate the query in the initializer directly via `query` or using built-in helpers `must` and `exclude`.
+Or manipulate the query for all cases (with or without `term`) in the initializer directly via `query` or by using built-in helpers `must` and `exclude`.
 
 ```ruby
 class MyQuery < Estella::Query
   def initialize(params)
     super
     # same as query[:filter][:bool][:must] = { keywords: 'frank' }
-    must term: { keywords: 'frank' }
+    must(term: { keywords: 'frank' })
     # same as query[:filter][:bool][:must_not] = { keywords: 'sinatra' }
-    exclude term: { keywords: 'sinatra' }
+    exclude(term: { keywords: 'sinatra' })
   end
 end
 ```
@@ -242,16 +243,14 @@ class Artist < ActiveRecord::Base
   end
 end
 
-Artist.estella_search (term: 'frank')
+Artist.estella_search(term: 'frank')
 ```
 
-For further search customization, see the [elasticsearch dsl](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl).
-
-Estella works with any ActiveRecord or Mongoid compatible data models.
+For further search customization, see the [ElasticSearch DSL](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl).
 
 ## Contributing
 
-Just fork the repo and submit a pull request.
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## License
 
