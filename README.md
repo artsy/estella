@@ -254,4 +254,6 @@ See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## License
 
-Copyright (c) 2017 Artsy Inc., [MIT License](LICENSE).
+Copyright (c) 2017 Art.sy, Inc.
+
+MIT License. See [LICENSE](LICENSE).
