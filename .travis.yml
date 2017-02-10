@@ -16,8 +16,7 @@ before_install:
   - curl -O $ELASTICSEARCH && sudo dpkg -i --force-confnew elasticsearch-*.deb
   - "echo 'script.inline: on' | sudo tee -a /etc/elasticsearch/elasticsearch.yml"
   - sudo /etc/init.d/elasticsearch start
-  - sleep 8
-  - curl -XGET http://localhost:9200
+  - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
 
 rvm:
   - 2.2.2
