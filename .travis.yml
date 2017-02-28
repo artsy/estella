@@ -7,11 +7,12 @@ before_script:
 
 env:
   - ELASTICSEARCH=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.4/elasticsearch-2.4.4.deb
-  - ELASTICSEARCH=https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.1.1/elasticsearch-2.1.1.deb
+  - ELASTICSEARCH=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.1.1/elasticsearch-2.1.1.deb
   - ELASTICSEARCH=https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.6.deb
   - ELASTICSEARCH=https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.5.2.deb
 
 before_install:
+  - gem update --system
   - gem update bundler
   - curl -O $ELASTICSEARCH && sudo dpkg -i --force-confnew elasticsearch-*.deb
   - "echo 'script.inline: on' | sudo tee -a /etc/elasticsearch/elasticsearch.yml"
@@ -19,4 +20,4 @@ before_install:
   - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
 
 rvm:
-  - 2.2.2
+  - 2.3.1
