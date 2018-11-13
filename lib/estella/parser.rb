@@ -8,9 +8,8 @@ module Estella
     # @see https://www.elastic.co/guide/en/elasticsearch/guide/current/boosting-by-popularity.html
     def boost(name, opts = {})
       fail ArgumentError, 'Boost field is not indexed!' unless @model.indexed_fields.include? name
-      unless (opts.keys & [:modifier, :factor]).length == 2
-        fail ArgumentError, 'Please supply a modifier and a factor for your boost!'
-      end
+      fail ArgumentError, 'Please supply a modifier and a factor for your boost!' unless (opts.keys & %i[modifier factor]).length == 2
+
       @model.field_boost = { boost: { field: name }.merge(opts) }
     end
 

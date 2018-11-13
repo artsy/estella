@@ -5,7 +5,7 @@ require 'rspec'
 require 'coveralls'
 Coveralls.wear!
 
-require File.expand_path('../../lib/estella.rb', __FILE__)
+require File.expand_path('../lib/estella.rb', __dir__)
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!

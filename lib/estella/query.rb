@@ -80,6 +80,7 @@ module Estella
 
       max = boost[:max]
       return unless max
+
       query[:query][:function_score][:max_boost] = max
     end
 
@@ -101,8 +102,10 @@ module Estella
     def add_filters
       indexed_fields = params[:indexed_fields]
       return unless indexed_fields
+
       indexed_fields.each do |field, opts|
         next unless opts[:filter] && params[field]
+
         must term: { field => params[field] }
       end
     end
@@ -110,6 +113,7 @@ module Estella
     def add_excludes
       exclude = params[:exclude]
       return unless exclude
+
       exclude.each do |k, v|
         exclude(term: { k => v })
       end
