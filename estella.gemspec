@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activemodel'
   gem.add_runtime_dependency 'activesupport'
-  gem.add_runtime_dependency 'elasticsearch-model'
+  gem.add_runtime_dependency 'elasticsearch-model', '~> 2.0'
 
   gem.add_development_dependency 'activerecord'
   gem.add_development_dependency 'rake', '~> 11.0'
