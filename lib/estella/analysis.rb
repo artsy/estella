@@ -7,16 +7,16 @@ module Estella
       { type: 'edgeNGram', min_gram: 2, max_gram: 15, side: 'front' }
 
     DEFAULT_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w(lowercase asciifolding) }
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding] }
 
     SNOWBALL_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w(lowercase asciifolding snowball) }
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding snowball] }
 
     SHINGLE_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w(shingle lowercase asciifolding) }
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[shingle lowercase asciifolding] }
 
     NGRAM_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w(lowercase asciifolding front_ngram_filter) }
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding front_ngram_filter] }
 
     DEFAULT_ANALYSIS = {
       tokenizer: {
@@ -26,11 +26,11 @@ module Estella
         front_ngram_filter: FRONT_NGRAM_FILTER
       },
       analyzer: {
-        default_analyzer:   DEFAULT_ANALYZER,
-        snowball_analyzer:  SNOWBALL_ANALYZER,
-        shingle_analyzer:   SHINGLE_ANALYZER,
-        ngram_analyzer:     NGRAM_ANALYZER,
-        search_analyzer:    DEFAULT_ANALYZER
+        default_analyzer: DEFAULT_ANALYZER,
+        snowball_analyzer: SNOWBALL_ANALYZER,
+        shingle_analyzer: SHINGLE_ANALYZER,
+        ngram_analyzer: NGRAM_ANALYZER,
+        search_analyzer: DEFAULT_ANALYZER
       }
     }
 
