@@ -220,9 +220,9 @@ Or manipulate the query for all cases (with or without `term`) in the initialize
 class MyQuery < Estella::Query
   def initialize(params)
     super
-    # same as query[:filter][:bool][:must] = { keywords: 'frank' }
+    # same as query[:bool][:must] = { keywords: 'frank' }
     must(term: { keywords: 'frank' })
-    # same as query[:filter][:bool][:must_not] = { keywords: 'sinatra' }
+    # same as query[:bool][:must_not] = { keywords: 'sinatra' }
     exclude(term: { keywords: 'sinatra' })
   end
 end
