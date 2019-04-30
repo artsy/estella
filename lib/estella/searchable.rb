@@ -6,7 +6,7 @@ module Estella
     #
     # class Artist < ActiveRecord::Base
     #   searchable do
-    #     field :name, type: :text, using: :my_attr, analysis: Estella::Analysis::FULLTEXT_ANALYSIS
+    #     field :name, type: :string, using: :my_attr, analysis: Estella::Analysis::FULLTEXT_ANALYSIS
     #     field :follows, type: :integer
     #     ...
     #     boost :follows, modifier: 'log1p', factor: 1E-3
@@ -59,7 +59,7 @@ module Estella
       # indexes slug attribute by default
       def index_slug
         if defined? slug
-          indexed_fields.merge!(slug: { type: :string, index: false })
+          indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
           indexed_json.merge!(slug: :slug)
         end
       end

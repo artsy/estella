@@ -35,10 +35,10 @@ module Estella
     }
 
     DEFAULT_FIELDS = {
-      default: { type: 'text', analyzer: 'default_analyzer' },
-      snowball: { type: 'text', analyzer: 'snowball_analyzer' },
-      shingle: { type: 'text', analyzer: 'shingle_analyzer' },
-      ngram: { type: 'text', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' }
+      default: { type: 'string', analyzer: 'default_analyzer' },
+      snowball: { type: 'string', analyzer: 'snowball_analyzer' },
+      shingle: { type: 'string', analyzer: 'shingle_analyzer' },
+      ngram: { type: 'string', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' }
     }
 
     DEFAULT_FIELD_FACTORS = {

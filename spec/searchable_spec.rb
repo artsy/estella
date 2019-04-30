@@ -18,8 +18,8 @@ describe Estella::Searchable, type: :model do
         end
 
         searchable do
-          field :title, type: :text, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-          field :keywords, type: :text, analysis: %i[default snowball], factor: 0.5
+          field :title, type: :string, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+          field :keywords, type: :string, analysis: %i[default snowball], factor: 0.5
           field :follows_count, type: :integer
           field :published, type: :boolean, filter: true
 
