@@ -88,7 +88,7 @@ module Estella
     # boost them by factor if provided
     def term_search_fields
       params[:indexed_fields]
-        .select { |_, opts| opts[:type].to_s == 'string' }
+        .select { |_, opts| opts[:type].to_s == 'text' }
         .reject { |_, opts| opts[:analysis].nil? }
         .map do |field, opts|
           opts[:analysis].map do |analyzer|

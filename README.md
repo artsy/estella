@@ -42,9 +42,9 @@ class Artist < ActiveRecord::Base
   include Estella::Searchable
 
   searchable do
-    field :name, type: :string, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
-    field :keywords, type: :string, analysis: ['snowball', 'shingle'], factor: 0.5
-    field :bio, using: :biography, type: :string, index: :not_analyzed
+    field :name, type: :text, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
+    field :keywords, type: :text, analysis: ['snowball', 'shingle'], factor: 0.5
+    field :bio, using: :biography, type: :text, index: false
     field :birth_date, type: :date
     field :follows, type: :integer
     field :published, type: :boolean, filter: true
@@ -132,7 +132,7 @@ analysis: Estella::Analysis::FULLTEXT_ANALYSIS
 Or alternatively select your analysis by listing the analyzers you want enabled for a given field:
 
 ```ruby
-field :keywords, type: :string, analysis: ['snowball', 'shingle']
+field :keywords, type: :text, analysis: ['snowball', 'shingle']
 ```
 
 Estella default analyzer and sharding options are defined [here](lib/estella/analysis.rb) and can be customized by passing a `settings` hash to the `searchable` block.
