@@ -21,11 +21,11 @@ module Estella
     end
 
     def must(filter)
-      query[:bool][:must] << filter
+      query[:filter][:bool][:must] << filter
     end
 
     def exclude(filter)
-      query[:bool][:must_not] << filter
+      query[:filter][:bool][:must_not] << filter
     end
 
     def query_definition
