@@ -59,7 +59,7 @@ module Estella
       # indexes slug attribute by default
       def index_slug
         if defined? slug
-          indexed_fields.merge!(slug: { type: :string, index: :not_analyzed })
+          indexed_fields.merge!(slug: { type: :text, index: :not_analyzed })
           indexed_json.merge!(slug: :slug)
         end
       end
