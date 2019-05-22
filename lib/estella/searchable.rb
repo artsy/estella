@@ -59,7 +59,7 @@ module Estella
       # indexes slug attribute by default
       def index_slug
         if defined? slug
-          indexed_fields.merge!(slug: { type: :text, index: :not_analyzed })
+          indexed_fields.merge!(slug: { type: :keyword })
           indexed_json.merge!(slug: :slug)
         end
       end
@@ -77,7 +77,7 @@ module Estella
         settings(settings) do
           mapping do
             indexed_fields.each do |name, opts|
-              indexes name, opts.except(:analysis, :using, :factor, :filter)
+              indexes name, opts.except(:analysis, :using, :factor, :filter, :include_raw)
             end
           end
         end
