@@ -8,7 +8,7 @@ module Estella
       @params = params
       @query = {
         _source: false,
-        query: { bool: { must: [], must_not: [], filter: [] } },
+        query: { bool: { must: [{ match_all: {} }], must_not: [], filter: [] } },
         aggregations: {}
       }
       add_query
