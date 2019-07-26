@@ -12,7 +12,7 @@ before_install:
   - gem update --system
   - gem update bundler
   - curl -O $ELASTICSEARCH && sudo dpkg -i --force-confnew elasticsearch-*.deb
-  - sudo /etc/init.d/elasticsearch start
+  - sudo systemctl start elasticsearch
   - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
 
 rvm:
