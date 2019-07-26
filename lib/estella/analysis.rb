@@ -43,7 +43,7 @@ module Estella
       snowball: { type: 'text', analyzer: 'snowball_analyzer' },
       shingle: { type: 'text', analyzer: 'shingle_analyzer' },
       ngram: { type: 'text', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' },
-      email: { type: 'text', analyzer: 'email_analyzer'}
+      email: { type: 'text', analyzer: 'email_analyzer' }
     }
 
     DEFAULT_FIELD_FACTORS = {
