@@ -1,6 +1,6 @@
 ## Changelog
 
-### 0.3.1 (Next)
+### 2.0.0
 
 * [#25](https://github.com/artsy/estella/pull/25): Support ElasticSearch 1.5.x - [@dblock](https://github.com/dblock).
 * [#21](https://github.com/artsy/estella/pull/21): Added Danger, PR linter - [@dblock](https://github.com/dblock).
