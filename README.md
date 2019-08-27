@@ -9,7 +9,7 @@ Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/t
 
 ## Compatibility
 
-This library is compatible with [Elasticsearch 1.5.x, 2.x](https://www.elastic.co/products/elasticsearch) and currently does not work with Elasticsearch 5.x (see [#18](https://github.com/artsy/estella/issues/18)). It works with many ORM/ODMs, including ActiveRecord and Mongoid.
+This library is compatible with [Elasticsearch 1.5.x, 2.x](https://www.elastic.co/products/elasticsearch) when using versions `2.0.0` and earlier.  It is compatible with Elasticsearch 5.x via version `5.0.0` or installing directly from the `master` branch of this repository. It works with many ORM/ODMs, including ActiveRecord and Mongoid.
 
 ## Dependencies
 
