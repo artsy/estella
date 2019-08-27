@@ -18,6 +18,9 @@ module Estella
     NGRAM_ANALYZER =
       { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding front_ngram_filter] }
 
+    EMAIL_ANALYZER =
+      { type: 'custom', tokenizer: 'uax_url_email', filter: %w[lowercase stop] }
+
     DEFAULT_ANALYSIS = {
       tokenizer: {
         standard_tokenizer: { type: 'standard' }
@@ -30,15 +33,17 @@ module Estella
         snowball_analyzer: SNOWBALL_ANALYZER,
         shingle_analyzer: SHINGLE_ANALYZER,
         ngram_analyzer: NGRAM_ANALYZER,
+        email_analyzer: EMAIL_ANALYZER,
         search_analyzer: DEFAULT_ANALYZER
       }
     }
 
     DEFAULT_FIELDS = {
-      default: { type: 'string', analyzer: 'default_analyzer' },
-      snowball: { type: 'string', analyzer: 'snowball_analyzer' },
-      shingle: { type: 'string', analyzer: 'shingle_analyzer' },
-      ngram: { type: 'string', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' }
+      default: { type: 'text', analyzer: 'default_analyzer' },
+      snowball: { type: 'text', analyzer: 'snowball_analyzer' },
+      shingle: { type: 'text', analyzer: 'shingle_analyzer' },
+      ngram: { type: 'text', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' },
+      email: { type: 'text', analyzer: 'email_analyzer' }
     }
 
     DEFAULT_FIELD_FACTORS = {
@@ -46,7 +51,8 @@ module Estella
       ngram: 10,
       snowball: 3,
       shingle: 2,
-      search: 2
+      search: 2,
+      email: 2
     }
 
     FULLTEXT_ANALYSIS = DEFAULT_FIELDS.keys

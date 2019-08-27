@@ -8,10 +8,7 @@ module Estella
       @params = params
       @query = {
         _source: false,
-        query: {},
-        filter: {
-          bool: { must: [], must_not: [] }
-        },
+        query: { bool: { must: [{ match_all: {} }], must_not: [], filter: [] } },
         aggregations: {}
       }
       add_query
@@ -21,14 +18,22 @@ module Estella
     end
 
     def must(filter)
-      query[:filter][:bool][:must] << filter
+      if query[:query][:function_score]
+        query[:query][:function_score][:query][:bool][:filter] << filter
+      else
+        query[:query][:bool][:filter] << filter
+      end
     end
 
     def exclude(filter)
-      query[:filter][:bool][:must_not] << filter
+      if query[:query][:function_score]
+        query[:query][:function_score][:query][:bool][:must_not] << filter
+      else
+        query[:query][:bool][:must_not] << filter
+      end
     end
 
-    def query_definition
+    def term_query_definition
       {
         multi_match: {
           type: 'most_fields',
@@ -50,18 +55,22 @@ module Estella
     end
 
     def add_query
-      if params[:term] && params[:indexed_fields]
-        add_term_query
-      else
-        query[:query] = { match_all: {} }
-      end
+      return unless params[:term] && params[:indexed_fields]
+
+      add_term_query
     end
 
     # fulltext search across all string fields
     def add_term_query
       query[:query] = {
         function_score: {
-          query: query_definition
+          query: {
+            bool: {
+              must: term_query_definition,
+              filter: [],
+              must_not: []
+            }
+          }
         }
       }
 
@@ -88,7 +97,7 @@ module Estella
     # boost them by factor if provided
     def term_search_fields
       params[:indexed_fields]
-        .select { |_, opts| opts[:type].to_s == 'string' }
+        .select { |_, opts| opts[:type].to_s == 'text' }
         .reject { |_, opts| opts[:analysis].nil? }
         .map do |field, opts|
           opts[:analysis].map do |analyzer|

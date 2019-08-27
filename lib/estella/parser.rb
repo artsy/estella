@@ -18,7 +18,8 @@ module Estella
       using = opts[:using] || name
       analysis = opts[:analysis] & @model.default_analysis_fields.keys
       opts[:fields] ||= Hash[analysis.zip(@model.default_analysis_fields.values_at(*analysis))] if analysis
-
+      include_raw = opts.delete(:include_raw)
+      opts[:fields][:raw] = { type: 'keyword' } if include_raw
       @model.indexed_json.merge!(name => using)
       @model.indexed_fields.merge!(name => opts)
     end

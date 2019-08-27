@@ -1,5 +1,9 @@
 ## Changelog
 
+### 5.0.0
+
+* [#29](https://github.com/artsy/estella/pull/29): Support Elasticsearch 5.x - [@izakp](https://github.com/izakp).
+
 ### 2.0.0
 
 * [#25](https://github.com/artsy/estella/pull/25): Support ElasticSearch 1.5.x - [@dblock](https://github.com/dblock).
