@@ -51,8 +51,7 @@ module Estella
       ngram: 10,
       snowball: 3,
       shingle: 2,
-      search: 2,
-      email: 2
+      search: 2
     }
 
     FULLTEXT_ANALYSIS = DEFAULT_FIELDS.keys
