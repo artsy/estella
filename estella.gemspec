@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'elasticsearch-model', '~> 5.0'
 
   gem.add_development_dependency 'activerecord'
-  gem.add_development_dependency 'rake', '~> 11.0'
+  gem.add_development_dependency 'rake', '>= 12.3.3'
   gem.add_development_dependency 'rspec', '~> 3.1.0'
   gem.add_development_dependency 'rspec-expectations'
   gem.add_development_dependency 'rubocop', '0.60.0'
