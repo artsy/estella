@@ -31,7 +31,7 @@ Commit your changes.
 ```
 git add README.md CHANGELOG.md lib/estella/version.rb
 git commit -m "Preparing for release, 0.2.2."
-git push origin master
+git push origin main
 ```
 
 Release.
@@ -62,5 +62,5 @@ Comit your changes.
 ```
 git add CHANGELOG.md lib/estella/version.rb
 git commit -m "Preparing for next development iteration, 0.2.3."
-git push origin master
+git push origin main
 ```

@@ -1,21 +1,21 @@
 # estella
 
 [![Gem Version](https://badge.fury.io/rb/estella.svg)](https://badge.fury.io/rb/estella)
-[![Build Status](https://travis-ci.org/artsy/estella.svg?branch=master)](https://travis-ci.org/artsy/estella)
+[![Build Status](https://travis-ci.org/artsy/estella.svg?branch=main)](https://travis-ci.org/artsy/estella)
 [![License Status](https://git.legal/projects/3493/badge.svg)](https://git.legal/projects/3493)
-[![Coverage Status](https://coveralls.io/repos/github/artsy/estella/badge.svg?branch=master)](https://coveralls.io/github/artsy/estella?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/artsy/estella/badge.svg?branch=main)](https://coveralls.io/github/artsy/estella?branch=main)
 
-Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
+Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/main/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
 
 ## Compatibility
 
-This library is compatible with [Elasticsearch 1.5.x, 2.x](https://www.elastic.co/products/elasticsearch) when using versions `2.0.0` and earlier.  It is compatible with Elasticsearch 5.x via version `5.0.0` or installing directly from the `master` branch of this repository. It works with many ORM/ODMs, including ActiveRecord and Mongoid.
+This library is compatible with [Elasticsearch 1.5.x, 2.x](https://www.elastic.co/products/elasticsearch) when using versions `2.0.0` and earlier.  It is compatible with Elasticsearch 5.x via version `5.0.0` or installing directly from the `main` branch of this repository. It works with many ORM/ODMs, including ActiveRecord and Mongoid.
 
 ## Dependencies
 
-* [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model)
-* [ActiveSupport](https://github.com/rails/rails/tree/master/activesupport)
-* [ActiveModel](https://github.com/rails/rails/tree/master/activemodel)
+* [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/main/elasticsearch-model)
+* [ActiveSupport](https://github.com/rails/rails/tree/main/activesupport)
+* [ActiveModel](https://github.com/rails/rails/tree/main/activemodel)
 
 ## Installation
 
@@ -31,7 +31,7 @@ You can configure your global ElasticSearch client like so:
 Elasticsearch::Model.client = Elasticsearch::Client.new host: 'foo.com', log: true
 ```
 
-It's also configurable on a per-model basis. Refer to the [ElasticSearch documentation](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-client) for details.
+It's also configurable on a per-model basis. Refer to the [ElasticSearch documentation](https://github.com/elastic/elasticsearch-rails/tree/main/elasticsearch-model#the-elasticsearch-client) for details.
 
 ## Indexing
 
@@ -246,7 +246,7 @@ end
 Artist.estella_search(term: 'frank')
 ```
 
-For further search customization, see the [ElasticSearch DSL](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#the-elasticsearch-dsl).
+For further search customization, see the [ElasticSearch DSL](https://github.com/elastic/elasticsearch-rails/tree/main/elasticsearch-model#the-elasticsearch-dsl).
 
 ## Contributing
 
