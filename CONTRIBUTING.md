@@ -32,8 +32,8 @@ bundle exec rake
 Make sure your fork is up-to-date and create a topic branch for your feature or bug fix.
 
 ```
-git checkout master
-git pull upstream master
+git checkout main
+git pull upstream main
 git checkout -b my-feature-branch
 ```
 
@@ -104,11 +104,11 @@ git push origin my-feature-branch -f
 
 ### Rebase
 
-If you've been working on a change for a while, rebase with upstream/master.
+If you've been working on a change for a while, rebase with upstream/main.
 
 ```
 git fetch upstream
-git rebase upstream/master
+git rebase upstream/main
 git push origin my-feature-branch -f
 ```
 
