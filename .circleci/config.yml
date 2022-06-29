@@ -1,0 +1,41 @@
+version: 2.1
+
+references:
+  bundle: &bundle
+    run:
+      name: Install dependencies
+      command: bundle install
+  print_versions: &print_versions
+    run:
+      name: Print ruby version
+      command: |
+        ruby -v
+  test: &test
+    run:
+      name: Run test suite
+      command: bundle exec rake
+
+jobs:
+  test:
+    docker:
+      - image: "cimg/ruby:<< parameters.ruby_version >>"
+      - image: elasticsearch:5.6
+          environment:
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+    parameters:
+      ruby_version:
+        type: string
+    steps:
+      - checkout
+      - <<: *bundle
+      - <<: *print_versions
+      - <<: *test
+
+workflows:
+  default:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              ruby_version: ["2.5", "2.6", "2.7"]
