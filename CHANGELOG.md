@@ -1,5 +1,10 @@
 ## Changelog
 
+### Next Release
+
+* [#35](https://github.com/artsy/estella/pull/35): Adopt inclusive language - [@dblandin]
+* [#36](https://github.com/artsy/estella/pull/36): Upgrade Rubocop - [@mzikherman]
+
 ### 5.0.1
 
 * [#33](https://github.com/artsy/estella/pull/32): Upgrade Rake to address [CVE-2020-8130](https://github.com/advisories/GHSA-jppv-gw3r-w3q8) - [@izakp](https://github.com/izakp).
