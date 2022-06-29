@@ -3,6 +3,7 @@
 require 'spec_helper'
 require 'estella'
 require 'active_record'
+require 'pry'
 
 describe Estella::Searchable, type: :model do
   before do
@@ -18,6 +19,8 @@ describe Estella::Searchable, type: :model do
           # mongoid::slug support
           'foo'
         end
+
+        document_type 'searchable_model'
 
         searchable do
           field :title, type: :text, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
@@ -107,7 +110,7 @@ describe Estella::Searchable, type: :model do
       it 'indexes a bulk set of documents' do
         SearchableModel.bulk_index([@fab.id, @tez.id])
         SearchableModel.refresh_index!
-        expect(SearchableModel.estella_search(term: 'jeremy')).to eq([]) # not indexes
+        expect(SearchableModel.estella_search(term: 'jeremy')).to eq([]) # not indexed
         expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
         expect(SearchableModel.estella_search(term: 'david')).to eq([@fab])
       end

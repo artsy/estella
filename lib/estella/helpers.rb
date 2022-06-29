@@ -63,7 +63,7 @@ module Estella
 
       def bulk_index(batch_of_ids)
         create_index! unless index_exists?
-        __elasticsearch__.client.bulk index: index_name, type: model_name.element, body: batch_to_bulk(batch_of_ids)
+        __elasticsearch__.client.bulk index: index_name, type: document_type, body: batch_to_bulk(batch_of_ids)
       end
 
       # @return true if the index exists
