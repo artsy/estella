@@ -97,7 +97,7 @@ describe Estella::Searchable, type: :model do
       before do
         SearchableModel.delete_index!
       end
-      xit 'recreates an index' do
+      it 'recreates an index' do
         expect do
           SearchableModel.estella_search(term: 'theresa')
         end.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
