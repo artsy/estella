@@ -1,20 +1,5 @@
 version: 2.1
 
-references:
-  bundle: &bundle
-    run:
-      name: Install dependencies
-      command: bundle install
-  print_versions: &print_versions
-    run:
-      name: Print ruby version
-      command: |
-        ruby -v
-  test: &test
-    run:
-      name: Run test suite
-      command: bundle exec rake
-
 jobs:
   test:
     docker:
@@ -25,9 +10,15 @@ jobs:
         type: string
     steps:
       - checkout
-      - <<: *bundle
-      - <<: *print_versions
-      - <<: *test
+      - run:
+        name: Install dependencies
+        command: bundle install
+      - run:
+        name: Print ruby version
+        command: ruby -v
+      - run:
+        name: Run test suite
+        command: bundle exec rake
 
 workflows:
   default:
