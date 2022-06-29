@@ -17,6 +17,9 @@ jobs:
         name: Print ruby version
         command: ruby -v
       - run:
+        name: Wait for ElasticSearch
+        command: dockerize -wait tcp://localhost:9200 -timeout 1m
+      - run:
         name: Run test suite
         command: bundle exec rake
 
