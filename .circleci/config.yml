@@ -11,17 +11,17 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Install dependencies
-        command: bundle install
+          name: Install dependencies
+          command: bundle install
       - run:
-        name: Print ruby version
-        command: ruby -v
+          name: Print ruby version
+          command: ruby -v
       - run:
-        name: Wait for ElasticSearch
-        command: dockerize -wait tcp://localhost:9200 -timeout 1m
+          name: Wait for ElasticSearch
+          command: dockerize -wait tcp://localhost:9200 -timeout 1m
       - run:
-        name: Run test suite
-        command: bundle exec rake
+          name: Run test suite
+          command: bundle exec rake
 
 workflows:
   default:
