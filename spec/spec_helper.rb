@@ -4,9 +4,6 @@ require 'active_support'
 require 'active_model'
 require 'rspec'
 
-# require 'coveralls'
-# Coveralls.wear!
-
 require File.expand_path('../lib/estella.rb', __dir__)
 
 RSpec.configure do |config|
