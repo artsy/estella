@@ -6,19 +6,19 @@ module Estella
     extend ActiveSupport::Concern
 
     FRONT_NGRAM_FILTER =
-      { type: 'edgeNGram', min_gram: 2, max_gram: 15, side: 'front' }.freeze
+      { type: 'edgeNGram', min_gram: 2, max_gram: 15, side: 'front' }
 
     DEFAULT_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding] }.freeze
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding] }
 
     SNOWBALL_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding snowball] }.freeze
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding snowball] }
 
     SHINGLE_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[shingle lowercase asciifolding] }.freeze
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[shingle lowercase asciifolding] }
 
     NGRAM_ANALYZER =
-      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding front_ngram_filter] }.freeze
+      { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding front_ngram_filter] }
 
     DEFAULT_ANALYSIS = {
       tokenizer: {
@@ -34,14 +34,14 @@ module Estella
         ngram_analyzer: NGRAM_ANALYZER,
         search_analyzer: DEFAULT_ANALYZER
       }
-    }.freeze
+    }
 
     DEFAULT_FIELDS = {
       default: { type: 'text', analyzer: 'default_analyzer' },
       snowball: { type: 'text', analyzer: 'snowball_analyzer' },
       shingle: { type: 'text', analyzer: 'shingle_analyzer' },
       ngram: { type: 'text', analyzer: 'ngram_analyzer', search_analyzer: 'search_analyzer' }
-    }.freeze
+    }
 
     DEFAULT_FIELD_FACTORS = {
       default: 10,
@@ -49,7 +49,7 @@ module Estella
       snowball: 3,
       shingle: 2,
       search: 2
-    }.freeze
+    }
 
     FULLTEXT_ANALYSIS = DEFAULT_FIELDS.keys
 
