@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'estella'
 require 'active_record'
@@ -96,7 +98,9 @@ describe Estella::Searchable, type: :model do
         SearchableModel.delete_index!
       end
       it 'recreates an index' do
-        expect { SearchableModel.estella_search(term: 'theresa') }.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
+        expect do
+          SearchableModel.estella_search(term: 'theresa')
+        end.to raise_error Elasticsearch::Transport::Transport::Errors::NotFound
         SearchableModel.recreate_index!
         expect(SearchableModel.estella_search(term: 'theresa')).to eq([@tez])
       end

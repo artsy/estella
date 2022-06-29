@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Estella
   class Query
     # Constructs a search query for ES

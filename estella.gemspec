@@ -22,6 +22,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake', '>= 12.3.3'
   gem.add_development_dependency 'rspec', '>= 3.5'
   gem.add_development_dependency 'rspec-expectations'
-  gem.add_development_dependency 'rubocop', '0.60.0'
+  gem.add_development_dependency 'rubocop', '1.31.1'
   gem.add_development_dependency 'sqlite3'
 end

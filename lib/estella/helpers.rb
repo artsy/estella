@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Estella
   module Helpers
     extend ActiveSupport::Concern
@@ -74,7 +76,10 @@ module Estella
       end
 
       def create_index!
-        __elasticsearch__.client.indices.create index: index_name, body: { settings: settings.to_hash, mappings: mappings.to_hash }
+        __elasticsearch__.client.indices.create index: index_name,
+                                                body: {
+                                                  settings: settings.to_hash, mappings: mappings.to_hash
+                                                }
       end
 
       def reload_index!

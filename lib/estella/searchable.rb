@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Estella
   module Searchable
     # Makes your ActiveRecord model searchable via Elasticsearch
