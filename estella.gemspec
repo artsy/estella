@@ -16,9 +16,10 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activemodel'
   gem.add_runtime_dependency 'activesupport'
-  gem.add_runtime_dependency 'elasticsearch-model', '~> 5.0'
+  gem.add_runtime_dependency 'elasticsearch-model', '~> 6.0'
 
   gem.add_development_dependency 'activerecord'
+  gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake', '>= 12.3.3'
   gem.add_development_dependency 'rspec', '>= 3.5'
   gem.add_development_dependency 'rspec-expectations'

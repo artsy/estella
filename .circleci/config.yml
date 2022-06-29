@@ -4,7 +4,7 @@ jobs:
   test:
     docker:
       - image: "cimg/ruby:<< parameters.ruby_version >>"
-      - image: elasticsearch:5.6
+      - image: elasticsearch:6.8.23
     parameters:
       ruby_version:
         type: string
