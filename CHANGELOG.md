@@ -2,8 +2,12 @@
 
 ### Next Release
 
-* [#35](https://github.com/artsy/estella/pull/35): Adopt inclusive language - [@dblandin]
+### v6.0.0
+
+* [#38](https://github.com/artsy/estella/pull/38): Support Elasticsearch 6.x - [@mzikherman]
+* [#37](https://github.com/artsy/estella/pull/37): Setup CircleCI - [@artsyjian]
 * [#36](https://github.com/artsy/estella/pull/36): Upgrade Rubocop - [@mzikherman]
+* [#35](https://github.com/artsy/estella/pull/35): Adopt inclusive language - [@dblandin]
 
 ### 5.0.1
 
