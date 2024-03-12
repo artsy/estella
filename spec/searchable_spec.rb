@@ -20,8 +20,6 @@ describe Estella::Searchable, type: :model do
           'foo'
         end
 
-        document_type 'searchable_model'
-
         searchable do
           field :title, type: :text, analysis: Estella::Analysis::FULLTEXT_ANALYSIS, factor: 1.0
           field :keywords, type: :text, analysis: %i[default snowball], factor: 0.5
@@ -80,7 +78,7 @@ describe Estella::Searchable, type: :model do
     it 'indexes slug field by default' do
       SearchableModel.create(title: 'liapunov', slug: 'liapunov')
       SearchableModel.refresh_index!
-      expect(SearchableModel.mappings.to_hash[:searchable_model][:properties].key?(:slug)).to eq true
+      expect(SearchableModel.mappings.to_hash[:properties].key?(:slug)).to eq true
     end
     it 'supports boolean filters' do
       liapunov = SearchableModel.create(title: 'liapunov', published: true)
