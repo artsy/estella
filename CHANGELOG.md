@@ -2,6 +2,10 @@
 
 ### Next Release
 
+### v7.0.0
+
+* [#40](https://github.com/artsy/estella/pull/40): compatibility with elasticsearch v7 - [@joeyAghion]
+
 ### v6.0.0
 
 * [#38](https://github.com/artsy/estella/pull/38): Support Elasticsearch 6.x - [@mzikherman]
