@@ -57,10 +57,10 @@ module Estella
     end
 
     module ClassMethods
-      # support for mongoid::slug
+      # support for mongoid::slug and friendly_id (AR slugs)
       # indexes slug attribute by default
       def index_slug
-        if defined? slug
+        if method_defined?(:slug) || method_defined?(:friendly_id)
           indexed_fields.merge!(slug: { type: :keyword })
           indexed_json.merge!(slug: :slug)
         end
