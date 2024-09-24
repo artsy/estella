@@ -11,7 +11,7 @@ bundle install
 rake
 ```
 
-Check that the last build succeeded in [Travis CI](https://travis-ci.org/dblock/estella) for all supported platforms.
+Check that the last build succeeded in [Circle CI](https://app.circleci.com/pipelines/github/artsy/estella) for all supported platforms.
 
 Increment the version, modify [lib/estella/version.rb](lib/estella/version.rb).
 
