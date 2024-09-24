@@ -1,8 +1,7 @@
 # estella
 
 [![Gem Version](https://badge.fury.io/rb/estella.svg)](https://badge.fury.io/rb/estella)
-[![Build Status](https://travis-ci.org/artsy/estella.svg?branch=main)](https://travis-ci.org/artsy/estella)
-[![License Status](https://git.legal/projects/3493/badge.svg)](https://git.legal/projects/3493)
+[![Build Status](https://dl.circleci.com/status-badge/img/gh/artsy/estella/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/artsy/estella/tree/main)
 [![Coverage Status](https://coveralls.io/repos/github/artsy/estella/badge.svg?branch=main)](https://coveralls.io/github/artsy/estella?branch=main)
 
 Builds on [elasticsearch-model](https://github.com/elastic/elasticsearch-rails/tree/main/elasticsearch-model) to make your Ruby objects searchable with Elasticsearch. Provides fine-grained control of fields, analysis, filters, weightings and boosts.
