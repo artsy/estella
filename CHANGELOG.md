@@ -1,6 +1,8 @@
 ## Changelog
 
-### Next Release
+### v7.0.2 Next Release
+
+* Your contribution here.
 
 ### v7.0.1
 
