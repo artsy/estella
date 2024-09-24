@@ -2,6 +2,11 @@
 
 ### Next Release
 
+### v7.0.1
+
+* [#43](https://github.com/artsy/estella/pull/43): chore: docs - [@ovasdi]
+* [#42](https://github.com/artsy/estella/pull/42): feat: searchable module index_slug supports FriendlyId - [@ovasdi]
+
 ### v7.0.0
 
 * [#40](https://github.com/artsy/estella/pull/40): compatibility with elasticsearch v7 - [@joeyAghion]
