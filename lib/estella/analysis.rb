@@ -6,7 +6,7 @@ module Estella
     extend ActiveSupport::Concern
 
     FRONT_NGRAM_FILTER =
-      { type: 'edgeNGram', min_gram: 2, max_gram: 15, side: 'front' }
+      { type: 'edge_ngram', min_gram: 2, max_gram: 15, side: 'front' }
 
     DEFAULT_ANALYZER =
       { type: 'custom', tokenizer: 'standard_tokenizer', filter: %w[lowercase asciifolding] }
