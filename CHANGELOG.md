@@ -1,5 +1,9 @@
 ## Changelog
 
+### v7.0.3 (Next)
+
+* Your contribution here.
+
 ### v7.0.2
 
 * [#45](https://github.com/artsy/estella/pull/45): chore: switch to a non deprecated ngram filter name - [@ovasdi]
