@@ -58,7 +58,13 @@ module Estella
       end
 
       def batch_to_bulk(batch_of_ids)
-        find(batch_of_ids).map(&:es_transform)
+        if defined?(Mongoid::Document) && ancestors.include?(Mongoid::Document)
+          with(read: :primary_preferred) do
+            find(batch_of_ids).map(&:es_transform)
+          end
+        else
+          find(batch_of_ids).map(&:es_transform)
+        end
       end
 
       def bulk_index(batch_of_ids)
