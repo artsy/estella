@@ -72,7 +72,7 @@ module Estella
       end
 
       def delete_index!
-        __elasticsearch__.client.indices.delete index: index_name
+        __elasticsearch__.client.indices.delete index: provided_index_name
       end
 
       def create_index!
@@ -80,6 +80,10 @@ module Estella
                                                 body: {
                                                   settings: settings.to_hash, mappings: mappings.to_hash
                                                 }
+      end
+
+      def provided_index_name
+        __elasticsearch__.client.indices.get_settings(index: index_name).keys.first
       end
 
       def reload_index!
