@@ -4,11 +4,17 @@ jobs:
   test:
     docker:
       - image: "cimg/ruby:<< parameters.ruby_version >>"
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+      - image: "<< parameters.search_image >>"
         environment:
           - discovery.type: single-node
+          # the following are ignored by elasticsearch images
+          - DISABLE_SECURITY_PLUGIN: "true"
+          - DISABLE_INSTALL_DEMO_CONFIG: "true"
+          - OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
     parameters:
       ruby_version:
+        type: string
+      search_image:
         type: string
     steps:
       - checkout
@@ -19,8 +25,8 @@ jobs:
           name: Print ruby version
           command: ruby -v
       - run:
-          name: Wait for ElasticSearch
-          command: dockerize -wait tcp://localhost:9200 -timeout 1m
+          name: Wait for search engine
+          command: dockerize -wait tcp://localhost:9200 -timeout 2m
       - run:
           name: Run test suite
           command: bundle exec rake
@@ -32,3 +38,6 @@ workflows:
           matrix:
             parameters:
               ruby_version: ["3.1"]
+              search_image:
+                - "docker.elastic.co/elasticsearch/elasticsearch:7.17.18"
+                - "opensearchproject/opensearch:3.3.0"
