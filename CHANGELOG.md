@@ -1,9 +1,8 @@
 ## Changelog
 
-### v7.0.3 (Next)
+### v7.0.3
 
 * [#51](https://github.com/artsy/estella/pull/51): fix: pin elasticsearch client below 7.14 for OpenSearch compatibility, fix test-only index settings applying in all environments, run CI against OpenSearch 2.x/3.x - [@egdbear]
-* Your contribution here.
 
 ### v7.0.2
 
