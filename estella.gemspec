@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activemodel'
   gem.add_runtime_dependency 'activesupport'
+  # elasticsearch 7.14+ refuses to connect to non-Elastic servers (e.g. OpenSearch)
+  gem.add_runtime_dependency 'elasticsearch', '>= 7.0', '< 7.14'
   gem.add_runtime_dependency 'elasticsearch-model', '~> 7.0'
 
   gem.add_development_dependency 'activerecord'

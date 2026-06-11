@@ -53,7 +53,7 @@ module Estella
 
     FULLTEXT_ANALYSIS = DEFAULT_FIELDS.keys
 
-    DEFAULT_SETTINGS = if defined? Rails && Rails.env == 'test'
+    DEFAULT_SETTINGS = if defined?(Rails) && Rails.env == 'test'
                          # Ensure no sharding in test env in order to enforce deterministic scores.
                          { analysis: DEFAULT_ANALYSIS, index: { number_of_shards: 1, number_of_replicas: 1 } }
                        else
